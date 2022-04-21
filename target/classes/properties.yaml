@@ -1,0 +1,14 @@
+browser: CHROME
+#browser: firefox
+#browser: ie
+
+environments:
+  env_int:
+    active: true
+    appUrl: http://146.59.32.4/index.php
+
+  env_test:
+    active: false
+    appUrl: http://146.59.32.4/index.php
+
+
