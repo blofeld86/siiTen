@@ -1,5 +1,6 @@
 package Wait;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,4 +31,19 @@ public class WaitForTheElement {
     public void untilAlertIsPresent(WebDriver driver){
         getWait(driver).until(ExpectedConditions.alertIsPresent());
     }
+
+    public void untilElementIsPresent(WebDriver driver, By locator){
+        getWait(driver).until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public void untilElementIsInvisible(WebElement element,WebDriver driver){
+        getWait(driver).until(ExpectedConditions.invisibilityOf(element));
+    }
+
+    public void untilElementIsRefreshed(WebElement element, WebDriver driver){
+        getWait(driver).until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf(element)));
+    }
+
+
+
 }

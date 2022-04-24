@@ -5,6 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import static Configuration.YamlReader.*;
 import static Configuration.DriverFactory.*;
 

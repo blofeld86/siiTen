@@ -1,10 +1,7 @@
-import Page.bjects.LandingPage;
+import Page.Objects.LandingPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 public class SearchTest extends BaseTest{
 

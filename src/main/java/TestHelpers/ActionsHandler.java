@@ -1,6 +1,7 @@
 package TestHelpers;
 
 import com.beust.ah.A;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -34,6 +35,23 @@ public class ActionsHandler {
     public void clickElement(WebDriver driver,WebElement element){
         setActions(driver).moveToElement(element).doubleClick();
         logger.info("Successfully clicked the element {}", element.getText());
+    }
+
+    public void clickAndHold(WebDriver driver, WebElement element){
+        setActions(driver).clickAndHold(element).perform();
+    }
+
+    public void moveArrowLeft(WebDriver driver){
+        setActions(driver).sendKeys(Keys.ARROW_LEFT).perform();
+    }
+
+    public void moveArrowRight(WebDriver driver){
+        setActions(driver).sendKeys(Keys.ARROW_RIGHT).perform();
+    }
+
+
+    public void xyz (WebDriver driver, WebElement el){
+        setActions(driver).clickAndHold();
     }
 
 

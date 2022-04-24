@@ -1,24 +1,17 @@
-package Page.bjects;
+package Page.Objects;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
-import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class LandingPage extends BasePage {
 
-    public LandingPage(WebDriver driver){ PageFactory.initElements(driver,this);}
+    public LandingPage(WebDriver driver){
+        super(driver);
+        PageFactory.initElements(driver,this);}
 
     @FindBy(css = "div[itemprop='itemListElement']")
     List<WebElement> listOfElements;
@@ -54,27 +47,26 @@ public class LandingPage extends BasePage {
     public String dropdownValue = null;
 
     public LandingPage enterRandomProductNameIntoField(WebDriver driver){
-        WebElement element = getWebElementHandler()
-                .getRandomWebElementFromList(listOfElements,driver);
-        value = getWebElementHandler().getTextFromListElement(element,"div.product-description a");
-        getWebElementHandler().shouldFillInput(value,input,driver);
-        dropdownValue = getWebElementHandler().getTextFromElement(dropdownProduct,driver);
+        WebElement element = getRandomWebElementFromList(listOfElements,driver);
+        value = getTextFromListElement(element,"div.product-description a");
+        shouldFillInput(value,input,driver);
+        dropdownValue = getTextFromElement(dropdownProduct,driver);
         return this;
     }
 
     public ResultPage shouldClickSearchButton(WebDriver driver){
-        getWebElementHandler().shouldClickElement(searchButton,driver);
-        return new ResultPage();
+        shouldClickElement(searchButton,driver);
+        return new ResultPage(driver);
     }
 
     public LandingPage iterateThroughCategories(WebDriver driver) throws InterruptedException {
         for(int i = 0;i<listOfCategories.size();i++){
                 String nameOfFirstPage = listOfCategories.get(i).getText();
                 listOfCategories.get(i).click();
-                String nameOfSecondPage = getWebElementHandler().getTextFromElement(categoryName, driver);
-                getWebElementHandler().verifyIsElementDisplayed(filters, driver);
-                int x = getWebElementHandler().numberOfItemsInCategory(itemList);
-                int y = getWebElementHandler().getNumberFromText(numberOfProducts.getText(), 2);
+                String nameOfSecondPage = getTextFromElement(categoryName, driver);
+                verifyIsElementDisplayed(filters, driver);
+                int x = numberOfItemsInCategory(itemList);
+                int y = getNumberFromText(numberOfProducts.getText(), 2);
                 if (nameOfFirstPage.equals(nameOfSecondPage) && (x==y)){}
                 driver.navigate().back();
         }
@@ -84,11 +76,11 @@ public class LandingPage extends BasePage {
     public LandingPage iterateThroughSubCategories(WebDriver driver) throws InterruptedException {
         for(int i = 0;i<listOfSubCategories.size();i++){
             String nameOfFirstPage = listOfSubCategories.get(i).getText();
-            getJse().clickElement(listOfSubCategories.get(i),driver);
-            String nameOfSecondPage = getWebElementHandler().getTextFromElement(categoryName, driver);
-            getWebElementHandler().verifyIsElementDisplayed(filters, driver);
-            int x = getWebElementHandler().numberOfItemsInCategory(itemList);
-            int y = getWebElementHandler().getNumberFromText(numberOfProducts.getText(), 2);
+            jse.executeScript("arguments[0].click();",listOfSubCategories.get(i));
+            String nameOfSecondPage = getTextFromElement(categoryName, driver);
+            verifyIsElementDisplayed(filters, driver);
+            int x = numberOfItemsInCategory(itemList);
+            int y = getNumberFromText(numberOfProducts.getText(), 2);
             if (nameOfFirstPage.equals(nameOfSecondPage) && (x==y)){}
             driver.navigate().back();
         }
