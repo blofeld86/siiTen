@@ -1,17 +1,26 @@
 package TestHelpers;
 
 import javax.sound.midi.Soundbank;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedMap;
+import java.util.*;
 
 public class Run {
 
     public static void main(String[] args) {
 
-        System.out.println(getFullPrice("$35.90"));
-        System.out.println(changeStringPercentToDouble("-20%"));
+//        System.out.println(getFullPrice("$35.90"));
+//        System.out.println(changeStringPercentToDouble("-20%"));
+
+        List<Integer> abc = new ArrayList<>();
+        abc.add(1);
+        abc.add(2);
+        abc.add(3);
+        abc.add(4);
+        System.out.println(abc.size());
+
+
     }
+
+
 
     public static double changeStringPercentToDouble(String value){
         return getNumberFromString(value,0)/100.00;

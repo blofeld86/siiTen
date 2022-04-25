@@ -12,9 +12,9 @@ public class User {
         this.password = userBuilder.password;
     }
 
-    public String getFirstName() { return firstName;}
-    public String getLastName() { return lastName;}
-    public String getPassword() { return password;}
+    public String setFirstName() { return firstName;}
+    public String setLastName() { return lastName;}
+    public String setPassword() { return password;}
 
 
     @Override
