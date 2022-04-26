@@ -23,10 +23,7 @@ public class CartConsistence {
         this.totalOrderCost = cartConsistenceBuilder.totalOrderCost;
     }
 
-    public void increaseQuantity(int by){
-        quantity+=by;
-    }
-
+    public void increaseQuantity(int by){ quantity+=by;}
 
     public void setName(String name) { this.name = name;}
     public void setPrice(double price) { this.price = price;}
@@ -40,27 +37,24 @@ public class CartConsistence {
     public double getTotalOrderCost() { return totalOrderCost;}
 
     public static void addToCartConsistenceList(String cName, double cPrice, int cQuantity){
-            cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder()
+        cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder()
                     .buildName(cName).buildPrice(cPrice).buildQuantity(cQuantity)));
             cartConsistenceList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
-      CartConsistence last = null;
-        for (int i = 0; i < cartConsistenceList.size(); i++) {
-            CartConsistence cartConsistence = cartConsistenceList.get(i);
-            if(i==0){
+        CartConsistence last = null;
+          for (int i = 0; i < cartConsistenceList.size(); i++) {
+              CartConsistence cartConsistence = cartConsistenceList.get(i);
+              if(i==0){
                 last = cartConsistence;
                 continue;
-            }
-
-            if(last.getName().equals(cartConsistence.getName())){
+              }
+              if(last.getName().equals(cartConsistence.getName())){
                 last.increaseQuantity(cartConsistence.getQuantity());
                 cartConsistenceList.remove(cartConsistence);
                 i--;
-            }else{
+              }else{
                 last = cartConsistence;
-            }
-
-
-        }
+              }
+          }
     }
 
     @Override
