@@ -10,13 +10,21 @@ public class Run {
 //        System.out.println(getFullPrice("$35.90"));
 //        System.out.println(changeStringPercentToDouble("-20%"));
 
-        List<Integer> abc = new ArrayList<>();
-        abc.add(1);
-        abc.add(2);
-        abc.add(3);
-        abc.add(4);
-        System.out.println(abc.size());
+//        List<Integer> abc = new ArrayList<>();
+//        abc.add(1);
+//        abc.add(2);
+//        abc.add(3);
+//        abc.add(4);
+//        System.out.println(abc.size());
 
+        List<String> axc = new ArrayList<>();
+        axc.add("MUG TODAY IS A GOOD DAY");
+        axc.add("THE ADVENTURE POSTER");
+        axc.add("TODAY POSTER");
+        axc.add("THE ADVENTURE POSTER");
+        axc.add("BROWN BEAR CUSHION");
+
+        System.out.println(axc.contains("BROWN BEAR CUSHION"));
 
     }
 

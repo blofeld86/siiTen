@@ -3,6 +3,7 @@ package Page.Objects;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class CartConsistence {
 
@@ -22,6 +23,10 @@ public class CartConsistence {
         this.totalOrderCost = cartConsistenceBuilder.totalOrderCost;
     }
 
+    public void increaseQuantity(int by){
+        quantity+=by;
+    }
+
 
     public void setName(String name) { this.name = name;}
     public void setPrice(double price) { this.price = price;}
@@ -29,23 +34,32 @@ public class CartConsistence {
     public void setTotalOrderCost(double totalOrderCost) { this.totalOrderCost = totalOrderCost;}
 
 
-    public void getName() { this.name = name;}
-    public void getPrice() { this.price = price;}
-    public void getQuantity() { this.quantity = quantity;}
-    public void getTotalOrderCost() { this.totalOrderCost = totalOrderCost;}
+    public String getName() { return name;}
+    public double getPrice() { return price;}
+    public int getQuantity() { return quantity;}
+    public double getTotalOrderCost() { return totalOrderCost;}
 
-    public static void addToCartConsistenceList(String cName, double cPrice, int cQuantity, double total){
-        for (int i=0;i<cartConsistenceList.size();i++){
-            if(cartConsistenceList.get(i).name.equals(cName)){
-                } else {
-                cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder()
-                .buildName(cName).buildPrice(cPrice).buildQuantity(cQuantity)));
+    public static void addToCartConsistenceList(String cName, double cPrice, int cQuantity){
+            cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder()
+                    .buildName(cName).buildPrice(cPrice).buildQuantity(cQuantity)));
+            cartConsistenceList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+      CartConsistence last = null;
+        for (int i = 0; i < cartConsistenceList.size(); i++) {
+            CartConsistence cartConsistence = cartConsistenceList.get(i);
+            if(i==0){
+                last = cartConsistence;
+                continue;
             }
-//        if(!cartConsistenceList.contains(cName)){
-//            cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder()
-//                .buildName(name).buildPrice(price).buildQuantity(quantity)));
-//        }else {cartConsistenceList.
-////            cartConsistenceList.
+
+            if(last.getName().equals(cartConsistence.getName())){
+                last.increaseQuantity(cartConsistence.getQuantity());
+                cartConsistenceList.remove(cartConsistence);
+                i--;
+            }else{
+                last = cartConsistence;
+            }
+
+
         }
     }
 

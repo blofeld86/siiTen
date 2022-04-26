@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import static Page.Objects.CartConsistence.*;
 import static Page.Objects.CartConsistence.Builder.*;
-import static Page.Objects.CartConsistence.cartConsistenceList;
-import static Page.Objects.CartConsistence.verifyCartConsistenceList;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -64,19 +64,10 @@ public class BasketPage extends BasePage{
             shouldDoubleClick(products.get(random.nextInt(products.size())), driver);
             int quant = random.nextInt(4) + 1;
             shouldFillInput(Integer.toString(quant), input, driver);
-
-
-            cartConsistenceList.add(i, new CartConsistence(new CartConsistence.Builder()
-                    .buildName(productName.getText())
-                    .buildPrice(getFullPriceFromString(price.getText()))
-                    .buildQuantity(quant)));
+            addToCartConsistenceList(productName.getText(),
+                    getFullPriceFromString(price.getText()),quant);
             shouldClickElement(addToCartButton, driver);
             wait.until(ExpectedConditions.visibilityOf(popup));
-            verifyCartConsistenceList.add(i, new CartConsistence(new CartConsistence.Builder()
-                    .buildName(popupProductName.getText())
-                    .buildPrice(getFullPriceFromString(popupPrice.getText()))
-                    .buildQuantity(getNumberFromString(popupQuantity.getText(), 0))
-                    .buildTotalOrderCost((getFullPriceFromString(popupTotal.getText())))));
             shouldClickElement(continueShopping, driver);
         }
          return this;
