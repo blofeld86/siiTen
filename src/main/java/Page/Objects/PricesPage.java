@@ -19,22 +19,22 @@ public class PricesPage extends BasePage{
     }
 
     @FindBy(css = "#link-product-page-prices-drop-1")
-    WebElement pricesDrop;
+    private WebElement pricesDrop;
 
     @FindBy(css = ".thumbnail-container")
-    List<WebElement> onSaleProducts;
+    private List<WebElement> onSaleProducts;
 
     @FindBy(css= ".discount")
-    List<WebElement> discount;
+    private List<WebElement> discount;
 
     @FindBy(css = ".regular-price")
-    List<WebElement> originalPrice;
+    private List<WebElement> originalPrice;
 
     @FindBy(css = "div>.price")
-    List<WebElement> actualPrice;
+    private List<WebElement> actualPrice;
 
 
-    public PricesPage shouldClickPricesDrop(WebDriver driver){
+    public PricesPage shouldClickPricesDrop(){
         jse.executeScript("window.scrollBy(0,document.body.scrollHeight)");
         shouldClickElement(pricesDrop,driver);
         return this;
@@ -75,7 +75,7 @@ public class PricesPage extends BasePage{
         return this;
     }
 
-    public ProductPage shouldOpenRandomProduct(WebDriver driver){
+    public ProductPage shouldOpenRandomProduct(){
         shouldClickElement(onSaleProducts.get(random.nextInt(1)),driver);
         return new ProductPage(driver);
     }

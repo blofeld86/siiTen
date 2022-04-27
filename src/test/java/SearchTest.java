@@ -1,4 +1,5 @@
 import Page.Objects.LandingPage;
+import Page.Objects.ProductDetails;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -8,18 +9,18 @@ public class SearchTest extends BaseTest{
     @Test
     void searchTest() throws InterruptedException {
         LandingPage landingPage = new LandingPage(driver);
-        landingPage
-                .enterRandomProductNameIntoField(driver)
-                        .shouldClickSearchButton(driver);
-        Assertions.assertEquals(landingPage.value, driver.findElement(By.cssSelector(".product-title>a")).getText());
+        ProductDetails productDetails = landingPage
+                   .enterRandomProductNameIntoField()
+                   .shouldClickSearchButton();
+        Assertions.assertEquals(landingPage.getInputProductName(),productDetails.getProductName());
     }
 
     @Test
     void searchTestDropdown() throws InterruptedException {
         LandingPage landingPage = new LandingPage(driver);
         landingPage
-                .enterRandomProductNameIntoField(driver);
-        Assertions.assertEquals(landingPage.dropdownValue,driver.findElement(By.cssSelector("span.product")).getText());
+                .enterRandomProductNameIntoField();
+        Assertions.assertEquals(landingPage.getInputProductName(),landingPage.getDropDownProductName());
     }
 
 
@@ -27,7 +28,7 @@ public class SearchTest extends BaseTest{
     void name() throws InterruptedException {
         LandingPage landingPage = new LandingPage(driver);
         landingPage
-                  .iterateThroughCategories(driver)
-                  .iterateThroughSubCategories(driver);
+                  .iterateThroughCategories()
+                  .iterateThroughSubCategories();
     }
 }

@@ -2,21 +2,32 @@ package Models;
 
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
+import java.util.Random;
 
 public class UserFactory {
 
-    public static User getRandomUser(){
+    public User getRandomUser(){
         Faker faker = new Faker();
+        Random random = new Random();
         return new User.UserBuilder()
                 .buildFirstName(faker.name().firstName())
                 .buildLastName(faker.name().lastName())
-                .buildPassword(faker.bothify("???????"))
+                .buildPassword(faker.internet().password())
+                .buildMail(faker.internet().emailAddress())
+                .buildAlias(faker.ancient().hero())
+                .buildStreet(faker.address().streetAddress())
+                .buildCompany(faker.company().name())
+                .buildCity(faker.address().city())
+                .buildZipCode(Integer.toString(99)+"-"+Integer.toString(999))
+                .buildPhone(faker.phoneNumber().subscriberNumber(9))
                 .build();
+
     }
 
-
-
     public static void main(String[] args) {
-        System.out.println(getRandomUser());
+        Faker faker = new Faker();
+
+        System.out.println(faker.phoneNumber().subscriberNumber(9));
+
     }
 }

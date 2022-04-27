@@ -4,62 +4,67 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 public class LandingPage extends BasePage {
 
-    public LandingPage(WebDriver driver){
-        super(driver);
-        PageFactory.initElements(driver,this);}
-
-    @FindBy(css = "div[itemprop='itemListElement']")
-    List<WebElement> listOfElements;
+    @FindBy(css = ".product-title>a")
+    private List<WebElement> listOfElementNames;
 
     @FindBy(css = "input[type='text']")
-    WebElement input;
+    private WebElement input;
 
-    @FindBy(css = "button[type='submit']")
-    WebElement searchButton;
+    @FindBy(css = "form>[type='submit']>i")
+    private WebElement searchButton;
 
     @FindBy(css = "span.product")
-    WebElement dropdownProduct;
+    private WebElement dropdownProduct;
 
     @FindBy(css = "#_desktop_top_menu>ul>li>a")
-    List <WebElement> listOfCategories;
+    private List <WebElement> listOfCategories;
 
     @FindBy(css = ".dropdown-submenu")
-    List<WebElement> listOfSubCategories;
+    private List<WebElement> listOfSubCategories;
 
     @FindBy(css = ".category-top-menu a.h6")
-    WebElement categoryName;
+    private WebElement categoryName;
 
     @FindBy(css = "#search_filters")
-    WebElement filters;
+    private WebElement filters;
 
     @FindBy(css = ".product")
-    List <WebElement> itemList;
+    private List <WebElement> itemList;
 
     @FindBy(css = ".total-products")
-    WebElement numberOfProducts;
+    private WebElement numberOfProducts;
 
-    public String value = null;
-    public String dropdownValue = null;
+    public LandingPage(WebDriver driver){
+        super(driver);
+        PageFactory.initElements(driver,this);
+    }
 
-    public LandingPage enterRandomProductNameIntoField(WebDriver driver){
-        WebElement element = getRandomWebElementFromList(listOfElements,driver);
-        value = getTextFromListElement(element,"div.product-description a");
-        shouldFillInput(value,input,driver);
-        dropdownValue = getTextFromElement(dropdownProduct,driver);
+    private String inputProductName = null;
+    private String dropdownProductName = null;
+    public String getInputProductName(){return inputProductName;}
+    public String getDropDownProductName(){return dropdownProduct.getText();}
+
+    public LandingPage enterRandomProductNameIntoField(){
+        WebElement element = getRandomWebElementFromList(listOfElementNames,driver);
+        inputProductName = element.getText();
+        input.sendKeys(inputProductName);
+        wait.until(ExpectedConditions.visibilityOf(dropdownProduct));
+        dropdownProductName = dropdownProduct.getText();
         return this;
     }
 
-    public ResultPage shouldClickSearchButton(WebDriver driver){
-        shouldClickElement(searchButton,driver);
-        return new ResultPage(driver);
+    public ProductDetails shouldClickSearchButton(){
+        searchButton.click();
+        return new ProductDetails(driver);
     }
 
-    public LandingPage iterateThroughCategories(WebDriver driver) throws InterruptedException {
+    public LandingPage iterateThroughCategories() throws InterruptedException {
         for(int i = 0;i<listOfCategories.size();i++){
                 String nameOfFirstPage = listOfCategories.get(i).getText();
                 listOfCategories.get(i).click();
@@ -73,10 +78,11 @@ public class LandingPage extends BasePage {
         return this;
     }
 
-    public LandingPage iterateThroughSubCategories(WebDriver driver) throws InterruptedException {
+    public LandingPage iterateThroughSubCategories() throws InterruptedException {
         for(int i = 0;i<listOfSubCategories.size();i++){
             String nameOfFirstPage = listOfSubCategories.get(i).getText();
             jse.executeScript("arguments[0].click();",listOfSubCategories.get(i));
+            actions.moveToElement(listOfCategories.get(i)).click().perform();
             String nameOfSecondPage = getTextFromElement(categoryName, driver);
             verifyIsElementDisplayed(filters, driver);
             int x = numberOfItemsInCategory(itemList);

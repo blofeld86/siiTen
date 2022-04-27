@@ -7,23 +7,23 @@ public class AddToCartTest extends BaseTest {
     void addToCartOne() throws InterruptedException {
         AddToCartPage addToCartPage = new AddToCartPage(driver);
         addToCartPage
-                     .shouldClickRandomCategory(driver)
-                     .shouldClickRandomProduct(driver)
-                     .shouldAddToCart(driver)
+                     .shouldClickRandomCategory()
+                     .shouldClickRandomProduct()
+                     .shouldAddToCart()
                      .verifyPopupContent()
-                     .shouldChooseContinueShopping(driver)
+                     .shouldChooseContinueShopping()
                      .verifyQuantityOfProductsInCart()
-                        .shouldClickRandomCategory(driver)
-                        .shouldClickRandomProduct(driver)
-                        .shouldAddToCart(driver)
+                        .shouldClickRandomCategory()
+                        .shouldClickRandomProduct()
+                        .shouldAddToCart()
                         .verifyPopupContent()
-                        .shouldChooseContinueShopping(driver)
+                        .shouldChooseContinueShopping()
                         .verifyQuantityOfProductsInCart()
-                           .shouldClickRandomCategory(driver)
-                           .shouldClickRandomProduct(driver)
-                           .shouldAddToCart(driver)
+                           .shouldClickRandomCategory()
+                           .shouldClickRandomProduct()
+                           .shouldAddToCart()
                            .verifyPopupContent()
-                           .shouldChooseContinueShopping(driver)
+                           .shouldChooseContinueShopping()
                            .verifyQuantityOfProductsInCart();
         Thread.sleep(4000);
     }

@@ -7,12 +7,12 @@ public class PricesTest extends BaseTest{
     void pricesTesOne() throws InterruptedException {
         PricesPage pricesPage = new PricesPage(driver);
         pricesPage
-                  .shouldClickPricesDrop(driver)
+                  .shouldClickPricesDrop()
                   .verifyDisplayedObjects()
                   .verifyPresenceOfDiscounts()
                   .verifyDisplayOfBothPrices()
                   .verifyCorrectnessOfDiscount()
-                  .shouldOpenRandomProduct(driver)
+                  .shouldOpenRandomProduct()
                   .shouldDisplayDiscountLabel()
                   .shouldDisplayBothPrices()
                   .shouldVerifyCorrectnessOfDiscount();

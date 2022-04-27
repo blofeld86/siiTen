@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 public class CartConsistence {
 
     public static List<CartConsistence> cartConsistenceList = new ArrayList<>();
-    public static List<CartConsistence> verifyCartConsistenceList = new ArrayList<>();
-
 
     private String name;
     private double price;

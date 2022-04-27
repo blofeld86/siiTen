@@ -18,33 +18,33 @@ public class FiltersPage extends BasePage{
         PageFactory.initElements(driver,this);}
 
     @FindBy(css = "#category-9>a")
-    WebElement art;
+    private WebElement art;
 
     @FindBy(css = ".ui-slider")
-    WebElement slider;
+    private WebElement slider;
 
     @FindBy(css = "a.ui-slider-handle:nth-of-type(1)")
-    WebElement leftSliderButton;
+    private WebElement leftSliderButton;
 
     @FindBy(css = "a.ui-slider-handle:nth-of-type(2)")
-    WebElement rightSliderButton;
+    private WebElement rightSliderButton;
 
     @FindBy(css = ".faceted-slider p")
-    WebElement price;
+    private WebElement price;
 
     @FindBy(css = "span.price")
-    List<WebElement> displayedProductsPrice;
+    private List<WebElement> displayedProductsPrice;
 
     @FindBy(xpath = "//div[@id='_desktop_search_filters_clear_all']/button")
-    WebElement clearButton;
+    private WebElement clearButton;
 
 
-    public FiltersPage goToArtCategory(WebDriver driver){
+    public FiltersPage goToArtCategory(){
         shouldClickElement(art,driver);
         return this;
     }
 
-    public FiltersPage selectCorrectPrice(WebDriver driver,int lowerPriceLimit, int higherPriceLimit){
+    public FiltersPage selectCorrectPrice(int lowerPriceLimit, int higherPriceLimit){
         jse.executeScript("arguments[0].scrollIntoView(true);",slider);
         moveSlider(leftSliderButton,driver,lowerPriceLimit,getNumberFromString(price.getText(),0));
         moveSlider(rightSliderButton,driver,higherPriceLimit,getNumberFromString(price.getText(), 2));
@@ -52,7 +52,7 @@ public class FiltersPage extends BasePage{
         return this;
     }
 
-    public FiltersPage verifyDisplayedProducts(WebDriver driver){
+    public FiltersPage verifyDisplayedProducts(){
         jse.executeScript("arguments[0].scrollIntoView(true);",slider);
         for (int i=0;i<displayedProductsPrice.size();i++){
             verifyPrice(getNumberFromString(displayedProductsPrice.get(i).getText()
@@ -64,7 +64,7 @@ public class FiltersPage extends BasePage{
         return this;
     }
 
-    public FiltersPage clearFilter(WebDriver driver){
+    public FiltersPage clearFilter(){
         shouldClickElement(clearButton,driver);
         log().info("Successfully cleared filter");
         return this;

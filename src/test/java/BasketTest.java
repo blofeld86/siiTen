@@ -7,30 +7,17 @@ import static Page.Objects.CartConsistence.*;
 public class BasketTest extends BaseTest{
 
     @Test
-    void basketTestOne() throws InterruptedException {
+    void basketTestOne() {
         BasketPage basketPage = new BasketPage(driver);
         basketPage
-                  .shouldAddFiveRandomProducts(driver)
-                  .changeQuantityOfProduct(driver,0,5)
-                  .verifyTotalValue(driver,0,1,5)
-                  .verifyExtendingProductQuantity(driver,0,6)
-                  .verifyTotalOrderValue(driver)
-                  .verifyReducingProductQuantity(driver,0,5)
-                  .verifyTotalOrderValue(driver)
-                  .removeProduct(driver)
-                  .verifyTotalOrderValue(driver)
-                  .removeProduct(driver)
-                  .verifyTotalOrderValue(driver)
-                  .removeProduct(driver)
-                  .verifyTotalOrderValue(driver)
-                  .removeProduct(driver)
-                  .verifyTotalOrderValue(driver)
-                  .removeProduct(driver);
-
-        System.out.println(cartConsistenceList.size());
-        for (CartConsistence c : cartConsistenceList) {
-            System.out.println(c);
-        }
-        Thread.sleep(4000);
+                  .shouldAddRandomProducts(5,5,false)
+                  .changeQuantityOfProduct(0,5)
+                  .verifyTotalValue(0,1,5)
+                  .verifyExtendingProductQuantity(0,6)
+                  .verifyTotalOrderValue()
+                  .verifyReducingProductQuantity(0,5)
+                  .verifyTotalOrderValue()
+                  .removeProductAndVerify()
+                  .verifyCartLastContent();
     }
 }

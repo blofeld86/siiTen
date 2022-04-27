@@ -8,29 +8,29 @@ public class FiltersTest extends BaseTest {
     void sliderFirstValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
-                .goToArtCategory(driver)
-                .selectCorrectPrice(driver,9,10)
-                .verifyDisplayedProducts(driver)
-                .clearFilter(driver);
+                .goToArtCategory()
+                .selectCorrectPrice(9,10)
+                .verifyDisplayedProducts()
+                .clearFilter();
     }
 
     @Test
     void sliderSecondValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
-                .goToArtCategory(driver)
-                .selectCorrectPrice(driver,28,29)
-                .verifyDisplayedProducts(driver)
-                .clearFilter(driver);
+                .goToArtCategory()
+                .selectCorrectPrice(28,29)
+                .verifyDisplayedProducts()
+                .clearFilter();
     }
 
     @Test
     void sliderThirdValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
-                .goToArtCategory(driver)
-                .selectCorrectPrice(driver,10,28)
-                .verifyDisplayedProducts(driver)
-                .clearFilter(driver);
+                .goToArtCategory()
+                .selectCorrectPrice(10,28)
+                .verifyDisplayedProducts()
+                .clearFilter();
     }
 }
