@@ -7,15 +7,9 @@ import org.openqa.selenium.support.PageFactory;
 import static Page.Objects.CartConsistence.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class BasketPage extends BasePage {
-
-    public BasketPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
-    }
 
     @FindBy(css = "#top-menu>.category")
     private List<WebElement> categories;
@@ -86,7 +80,10 @@ public class BasketPage extends BasePage {
     @FindBy(css = ".checkout")
     private WebElement summaryProceedToCheckout;
 
-    // ZWERYFIKOWAĆ ZWARTOŚĆ
+    public BasketPage(WebDriver driver) { super(driver);}
+
+    private double totalValueCost = 0;
+
     public BasketPage shouldAddRandomProducts( int nrOfProd,int qntOfProd,boolean proceed) {
         for (int i = 0; i < nrOfProd; i++) {
             shouldClickElement(categories.get(random.nextInt(categories.size())), driver);
@@ -101,6 +98,7 @@ public class BasketPage extends BasePage {
                 if (popupProductName.getText().equals(c.getName())) ;
                 if (Integer.parseInt(popupQuantity.getText()) == c.getQuantity()) ;
                 if (getFullPriceFromString(popupPrice.getText()) == (c.getPrice() * c.getQuantity())) ;
+                totalValueCost += c.getPrice() * c.getQuantity();
             }
             if(i != (nrOfProd-1)) {
                 continueShopping.click();

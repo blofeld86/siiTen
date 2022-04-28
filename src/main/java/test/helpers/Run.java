@@ -1,30 +1,19 @@
-package TestHelpers;
+package test.helpers;
 
 import javax.sound.midi.Soundbank;
+import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 
 public class Run {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-//        System.out.println(getFullPrice("$35.90"));
-//        System.out.println(changeStringPercentToDouble("-20%"));
 
-//        List<Integer> abc = new ArrayList<>();
-//        abc.add(1);
-//        abc.add(2);
-//        abc.add(3);
-//        abc.add(4);
-//        System.out.println(abc.size());
 
-        List<String> axc = new ArrayList<>();
-        axc.add("MUG TODAY IS A GOOD DAY");
-        axc.add("THE ADVENTURE POSTER");
-        axc.add("TODAY POSTER");
-        axc.add("THE ADVENTURE POSTER");
-        axc.add("BROWN BEAR CUSHION");
 
-        System.out.println(axc.contains("BROWN BEAR CUSHION"));
 
     }
 

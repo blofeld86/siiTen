@@ -2,7 +2,6 @@ import Page.Objects.LandingPage;
 import Page.Objects.ProductDetails;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 
 public class SearchTest extends BaseTest{
 
@@ -30,5 +29,9 @@ public class SearchTest extends BaseTest{
         landingPage
                   .iterateThroughCategories()
                   .iterateThroughSubCategories();
+        Assertions.assertEquals(landingPage.getCategoriesListOfNamesOfFirstPage(),landingPage.getCategoriesListOfNamesOfSecondPage());
+        Assertions.assertEquals(landingPage.getSubCategoriesListOfNamesOfFirstPage(),landingPage.getSubCategoriesListOfNamesOfSecondPagePage());
+        Assertions.assertEquals(landingPage.getDisplayedListOfCategoryItems(),landingPage.getSummaryListOfCategoryItems());
+        Assertions.assertEquals(landingPage.getDisplayedListOfSubCategoryItems(),landingPage.getSummaryListOfSubCategoryItems());
     }
 }

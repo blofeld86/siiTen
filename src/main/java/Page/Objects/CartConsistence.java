@@ -1,9 +1,6 @@
 package Page.Objects;
 
-import org.openqa.selenium.WebElement;
-
 import java.util.*;
-import java.util.stream.Stream;
 
 public class CartConsistence {
 

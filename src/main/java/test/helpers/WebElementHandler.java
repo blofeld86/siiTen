@@ -1,20 +1,13 @@
-package TestHelpers;
+package test.helpers;
 
-import Page.Objects.BasketPage;
-import Page.Objects.CartConsistence;
-import Wait.WaitForTheElement;
-import org.junit.jupiter.api.Assertions;
+import wait.WaitForTheElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-
-import static Page.Objects.CartConsistence.addToCartConsistenceList;
-import static Page.Objects.CartConsistence.cartConsistenceList;
 
 public class WebElementHandler extends WaitForTheElement {
 

@@ -1,10 +1,10 @@
 package Page.Objects;
 
-import Models.UserFactory;
-import TestHelpers.ActionsHandler;
-import TestHelpers.JSE;
-import TestHelpers.WebElementHandler;
-import Wait.WaitForTheElement;
+import models.UserFactory;
+import org.openqa.selenium.support.PageFactory;
+import test.helpers.ActionsHandler;
+import test.helpers.WebElementHandler;
+import wait.WaitForTheElement;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -33,6 +33,7 @@ public class BasePage extends WebElementHandler{
         jse = ((JavascriptExecutor)driver);
         random = new Random();
         userFactory = new UserFactory();
+        PageFactory.initElements(driver,this);
     }
 
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());

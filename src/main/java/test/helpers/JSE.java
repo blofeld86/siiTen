@@ -1,4 +1,4 @@
-package TestHelpers;
+package test.helpers;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

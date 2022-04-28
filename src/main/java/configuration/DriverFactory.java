@@ -1,4 +1,4 @@
-package Configuration;
+package configuration;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static Configuration.YamlReader.*;
+import static configuration.YamlReader.*;
 
 public class DriverFactory {
 

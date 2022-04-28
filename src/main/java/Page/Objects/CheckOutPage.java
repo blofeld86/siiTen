@@ -8,11 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckOutPage extends BasePage{
 
-    public CheckOutPage(WebDriver driver){
-        super(driver);
-        PageFactory.initElements(driver,this);
-    }
-
     @FindBy(css = ".user-info>a")
     private WebElement signIn;
 
@@ -51,6 +46,10 @@ public class CheckOutPage extends BasePage{
 
     @FindBy(css = "footer>[type='submit']")
     private WebElement register;
+
+    public CheckOutPage(WebDriver driver){ super(driver);}
+
+    private String address = null;
 
     public CheckOutPage signOpenRegisterForm(){
         shouldClickElement(signIn,driver);

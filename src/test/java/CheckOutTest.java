@@ -1,5 +1,5 @@
-import Page.Objects.BasketPage;
-import Page.Objects.CheckOutPage;
+import Page.Objects.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class CheckOutTest extends BaseTest{
@@ -7,6 +7,9 @@ public class CheckOutTest extends BaseTest{
     @Test
     void checkOutOne() throws InterruptedException {
         CheckOutPage checkOutPage = new CheckOutPage(driver);
+        ProceedOrderPage proceedOrderPage = new ProceedOrderPage(driver);
+        SummaryPage summaryPage = new SummaryPage(driver);
+        OrderHistoryPage orderHistoryPage = new OrderHistoryPage(driver);
         checkOutPage
                     .signOpenRegisterForm()
                     .shouldChooseMale()
@@ -22,7 +25,16 @@ public class CheckOutTest extends BaseTest{
                     .shouldChoosePaymentOption()
                     .shouldHandleTermsPopup()
                     .shouldPlaceAnOrder()
-                    .shouldVerifyOrder();
+                    .shouldVerifyOrder()
+                    .shouldGetOrderReferencePayAndDeliveryMethod()
+                    .shouldGoToOrderHistory()
+                    .shouldUploadOrderData()
+                    .shouldOpenDetails()
+                    .shouldFillListByValues()
+                    .shouldGetTheCustomerData();
+        Assertions.assertEquals(proceedOrderPage.getDeliveryMethod(),summaryPage.getDeliveryResult());
+        Assertions.assertEquals(proceedOrderPage.getPayMethod(),summaryPage.getPayMethodResult());
+        Assertions.assertEquals(proceedOrderPage.getAddressValue(),orderHistoryPage.getDelivAddress());
 
         Thread.sleep(4000);
     }

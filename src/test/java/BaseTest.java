@@ -1,4 +1,3 @@
-import Configuration.Browser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,11 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-
-import static Configuration.YamlReader.*;
-import static Configuration.DriverFactory.*;
+import static configuration.YamlReader.*;
+import static configuration.DriverFactory.*;
 
 public class BaseTest {
 

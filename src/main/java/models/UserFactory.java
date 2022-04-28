@@ -1,7 +1,7 @@
-package Models;
+package models;
 
 import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
+
 import java.util.Random;
 
 public class UserFactory {

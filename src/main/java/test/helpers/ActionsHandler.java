@@ -1,4 +1,4 @@
-package TestHelpers;
+package test.helpers;
 
 import com.beust.ah.A;
 import org.openqa.selenium.Keys;

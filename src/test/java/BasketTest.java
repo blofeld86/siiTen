@@ -1,8 +1,5 @@
 import Page.Objects.BasketPage;
-import Page.Objects.CartConsistence;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static Page.Objects.CartConsistence.*;
 
 public class BasketTest extends BaseTest{
 

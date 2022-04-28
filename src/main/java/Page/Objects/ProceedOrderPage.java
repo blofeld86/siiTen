@@ -1,6 +1,5 @@
 package Page.Objects;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,14 +7,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProceedOrderPage extends BasePage {
-
-    public ProceedOrderPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
-    }
 
     @FindBy(css = "[name='alias']")
     WebElement alias;
@@ -47,8 +42,14 @@ public class ProceedOrderPage extends BasePage {
     @FindBy(css = "[name='confirmDeliveryOption']")
     WebElement confirmDeliveryOption;
 
+    @FindBy(css = ".delivery-option:nth-child(1) .col-sm-1")
+    WebElement deliveryTesterSii;
+
     @FindBy(css = "#delivery_option_2")
     WebElement deliveryMan;
+
+    @FindBy(css = "#payment-option-1")
+    WebElement payByCheck;
 
     @FindBy(css ="#payment-option-2")
     WebElement payByBank;
@@ -56,7 +57,7 @@ public class ProceedOrderPage extends BasePage {
     @FindBy(css = "#cta-terms-and-conditions-0")
     WebElement termsOfService;
 
-    @FindBy(css = "#modal p")
+    @FindBy(css = ".js-modal-content p")
     List<WebElement> popUpContent;
 
     @FindBy(css = ".modal-content>.close")
@@ -68,13 +69,25 @@ public class ProceedOrderPage extends BasePage {
     @FindBy(css = "#payment-confirmation button")
     WebElement placeOrder;
 
+    public ProceedOrderPage(WebDriver driver) { super(driver);}
+
+    private String payMethod;
+    private String deliveryMethod;
+    private String addressValue;
+    private List<WebElement> popUpList = new ArrayList<>();
+
+    public String getPayMethod(){return payMethod;}
+    public String getDeliveryMethod(){return deliveryMethod;}
+    public String getAddressValue(){return addressValue;}
+    public List<WebElement> getPopUpList(){return popUpList;}
 
 
 
     public ProceedOrderPage shouldFillForm(){
+        addressValue = userFactory.getRandomUser().getStreet();
         shouldFillInput(userFactory.getRandomUser().getFirstName(),alias,driver);
         shouldFillInput(userFactory.getRandomUser().getCompany(),company,driver);
-        shouldFillInput(userFactory.getRandomUser().getStreet(),address,driver);
+        shouldFillInput(addressValue,address,driver);
         shouldFillInput(userFactory.getRandomUser().getCity(),city,driver);
         Select select = new Select(selectState);
         jse.executeScript("arguments[0].scrollIntoView(true);",select);
@@ -89,19 +102,29 @@ public class ProceedOrderPage extends BasePage {
 
     public ProceedOrderPage shouldChooseDelivery(){
         deliveryMan.click();
+        if(deliveryTesterSii.isSelected()){
+            deliveryMethod = "Pick up in-store";
+        }else if(deliveryMan.isSelected()){
+            deliveryMethod = "Delivery next day!";
+        }
         confirmDeliveryOption.click();
         return this;
     }
 
     public ProceedOrderPage shouldChoosePaymentOption(){
         payByBank.click();
+        if(payByCheck.isSelected()){
+            payMethod = "Payment method: Payments by check";
+        } else if (payByBank.isSelected()){
+            payMethod = "Payment method: Bank transfer";
+        }
         return this;
     }
 
     public ProceedOrderPage shouldHandleTermsPopup(){
         termsOfService.click();
-        if(!popUpContent.isEmpty());
-        wait.until(ExpectedConditions.elementToBeClickable(closePopup));
+        wait.until(ExpectedConditions.visibilityOfAllElements(popUpContent));
+        for (WebElement e:popUpContent) { popUpList.add(e);}
         closePopup.click();
         agreeTerms.click();
         return this;
@@ -111,7 +134,6 @@ public class ProceedOrderPage extends BasePage {
         placeOrder.click();
         return new SummaryPage(driver);
     }
-
 
 
 

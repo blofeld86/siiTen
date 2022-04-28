@@ -3,9 +3,9 @@ package Page.Objects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LandingPage extends BasePage {
@@ -40,15 +40,33 @@ public class LandingPage extends BasePage {
     @FindBy(css = ".total-products")
     private WebElement numberOfProducts;
 
-    public LandingPage(WebDriver driver){
-        super(driver);
-        PageFactory.initElements(driver,this);
-    }
-
     private String inputProductName = null;
     private String dropdownProductName = null;
+
+    private List<String> categoriesListOfNamesOfFirstPage = new ArrayList<>();
+    private List<String> categoriesListOfNamesOfSecondPage = new ArrayList<>();
+    private List<String> subCategoriesListOfNamesOfFirstPage = new ArrayList<>();
+    private List<String> subCategoriesListOfNamesOfSecondPage = new ArrayList<>();
+    private List<Integer> displayedListOfCategoryItems = new ArrayList<>();
+    private List<Integer> summaryListOfCategoryItems = new ArrayList<>();
+    private List<Integer> displayedListOfSubCategoryItems = new ArrayList<>();
+    private List<Integer> summaryListOfSubCategoryItems = new ArrayList<>();
+
+
+
     public String getInputProductName(){return inputProductName;}
     public String getDropDownProductName(){return dropdownProduct.getText();}
+    public List<String> getCategoriesListOfNamesOfFirstPage(){return categoriesListOfNamesOfFirstPage;}
+    public List<String> getCategoriesListOfNamesOfSecondPage(){return categoriesListOfNamesOfSecondPage;}
+    public List<String> getSubCategoriesListOfNamesOfFirstPage(){return subCategoriesListOfNamesOfFirstPage;}
+    public List<String> getSubCategoriesListOfNamesOfSecondPagePage(){return subCategoriesListOfNamesOfSecondPage;}
+    public List<Integer> getDisplayedListOfCategoryItems(){return displayedListOfCategoryItems;}
+    public List<Integer> getSummaryListOfCategoryItems(){return summaryListOfCategoryItems;}
+    public List<Integer> getDisplayedListOfSubCategoryItems(){return displayedListOfSubCategoryItems;}
+    public List<Integer> getSummaryListOfSubCategoryItems(){return summaryListOfSubCategoryItems;}
+
+    public LandingPage(WebDriver driver){ super(driver);}
+
 
     public LandingPage enterRandomProductNameIntoField(){
         WebElement element = getRandomWebElementFromList(listOfElementNames,driver);
@@ -65,29 +83,25 @@ public class LandingPage extends BasePage {
     }
 
     public LandingPage iterateThroughCategories() throws InterruptedException {
-        for(int i = 0;i<listOfCategories.size();i++){
-                String nameOfFirstPage = listOfCategories.get(i).getText();
+        for(int i = 0;i<listOfCategories.size()-1;i++){
+                categoriesListOfNamesOfFirstPage.add(listOfCategories.get(i).getText());
                 listOfCategories.get(i).click();
-                String nameOfSecondPage = getTextFromElement(categoryName, driver);
-                verifyIsElementDisplayed(filters, driver);
-                int x = numberOfItemsInCategory(itemList);
-                int y = getNumberFromText(numberOfProducts.getText(), 2);
-                if (nameOfFirstPage.equals(nameOfSecondPage) && (x==y)){}
+                categoriesListOfNamesOfSecondPage.add(getTextFromElement(categoryName, driver));
+                displayedListOfCategoryItems.add(numberOfItemsInCategory(itemList));
+                summaryListOfCategoryItems.add(getNumberFromText(numberOfProducts.getText(), 2));
                 driver.navigate().back();
         }
         return this;
     }
 
     public LandingPage iterateThroughSubCategories() throws InterruptedException {
-        for(int i = 0;i<listOfSubCategories.size();i++){
-            String nameOfFirstPage = listOfSubCategories.get(i).getText();
-            jse.executeScript("arguments[0].click();",listOfSubCategories.get(i));
-            actions.moveToElement(listOfCategories.get(i)).click().perform();
-            String nameOfSecondPage = getTextFromElement(categoryName, driver);
+        for(int i = 0;i<listOfSubCategories.size()-1;i++){
+            subCategoriesListOfNamesOfFirstPage.add(listOfCategories.get(i).getText());
+            listOfCategories.get(i).click();
+            subCategoriesListOfNamesOfSecondPage.add(getTextFromElement(categoryName, driver));
             verifyIsElementDisplayed(filters, driver);
-            int x = numberOfItemsInCategory(itemList);
-            int y = getNumberFromText(numberOfProducts.getText(), 2);
-            if (nameOfFirstPage.equals(nameOfSecondPage) && (x==y)){}
+            displayedListOfSubCategoryItems.add(numberOfItemsInCategory(itemList));
+            summaryListOfSubCategoryItems.add(getNumberFromText(numberOfProducts.getText(), 2));
             driver.navigate().back();
         }
         return this;

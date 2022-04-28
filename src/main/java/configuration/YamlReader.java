@@ -1,7 +1,7 @@
-package Configuration;
+package configuration;
 
-import Model.EnvironmentStructure;
-import Model.Pojo;
+import model.EnvironmentStructure;
+import model.Pojo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class YamlReader {
         try{
             return objectMapper.readValue(new File(System.getProperty("user.dir")+
                     "\\src\\main\\resources\\properties.yaml"), Pojo.class);
-        }catch (IOException e){ e.printStackTrace();}
+        }catch (IOException e){ log.error("Can not read properties from file due to IO Exception");}
         return null;
     }
 
