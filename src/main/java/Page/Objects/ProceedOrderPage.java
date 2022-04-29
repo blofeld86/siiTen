@@ -3,7 +3,6 @@ package Page.Objects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
@@ -91,7 +90,7 @@ public class ProceedOrderPage extends BasePage {
         shouldFillInput(userFactory.getRandomUser().getCity(),city,driver);
         Select select = new Select(selectState);
         jse.executeScript("arguments[0].scrollIntoView(true);",select);
-        select.selectByIndex(random.nextInt(59));
+        select.selectByIndex(getRandom().nextInt(59));
         shouldFillInput(userFactory.getRandomUser().getZipCode(),zipCode,driver);
         Select select1 = new Select(selectCountry);
         select1.selectByValue("14");
@@ -123,7 +122,7 @@ public class ProceedOrderPage extends BasePage {
 
     public ProceedOrderPage shouldHandleTermsPopup(){
         termsOfService.click();
-        wait.until(ExpectedConditions.visibilityOfAllElements(popUpContent));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(popUpContent));
         for (WebElement e:popUpContent) { popUpList.add(e);}
         closePopup.click();
         agreeTerms.click();

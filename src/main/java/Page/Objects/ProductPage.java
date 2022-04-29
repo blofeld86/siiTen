@@ -6,12 +6,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductPage extends BasePage{
 
-    public ProductPage(WebDriver driver){
-        super(driver);
-        PageFactory.initElements(driver,this);
-    }
 
     @FindBy(css = ".discount-percentage")
     WebElement save20percentLabel;
@@ -22,23 +21,20 @@ public class ProductPage extends BasePage{
     @FindBy(css = "span[itemprop='price']")
     WebElement actualPrice;
 
-    public ProductPage shouldDisplayDiscountLabel(){
-        wait.until(ExpectedConditions.visibilityOf(save20percentLabel));
-        save20percentLabel.isDisplayed();
-        return this;
-    }
+    private List<Boolean> priceCorrectnessList = new ArrayList<>();
 
-    public ProductPage shouldDisplayBothPrices(){
-        originalPrice.isDisplayed();
-        actualPrice.isDisplayed();
-        return this;
-    }
+    public WebElement getSave20percentLabel(){ return save20percentLabel;}
+    public WebElement getOriginalPrice(){ return originalPrice;}
+    public WebElement getActualPrice(){ return actualPrice;}
+    public List<Boolean> getPriceCorrectnessList() { return priceCorrectnessList;}
 
-    public ProductPage shouldVerifyCorrectnessOfDiscount(){
+    public ProductPage(WebDriver driver){ super(driver);}
+
+    public ProductPage shouldUploadCorrectnessOfDiscount() throws InterruptedException {
         double orgPrice = getFullPriceFromString(originalPrice.getText());
         double actPrice = getFullPriceFromString(actualPrice.getText());
         double proDiscount = changeStringPercentToDouble(save20percentLabel.getText());
-        verifyDiscount(orgPrice,actPrice,proDiscount);
+        priceCorrectnessList.add(verifyDiscount(orgPrice,actPrice,proDiscount));
         return this;
     }
 }

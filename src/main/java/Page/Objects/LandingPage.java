@@ -69,10 +69,10 @@ public class LandingPage extends BasePage {
 
 
     public LandingPage enterRandomProductNameIntoField(){
-        WebElement element = getRandomWebElementFromList(listOfElementNames,driver);
+        WebElement element = getRandomWebElementFromList(listOfElementNames);
         inputProductName = element.getText();
         input.sendKeys(inputProductName);
-        wait.until(ExpectedConditions.visibilityOf(dropdownProduct));
+        getWait().until(ExpectedConditions.visibilityOf(dropdownProduct));
         dropdownProductName = dropdownProduct.getText();
         return this;
     }

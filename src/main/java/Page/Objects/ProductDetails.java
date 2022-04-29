@@ -23,10 +23,10 @@ public class ProductDetails extends BasePage{
         return displayedProductName;
     }
 
-
-
-
-
-
-
+    @Override
+    public int hashCode() {
+        int result = getProductName() != null ? getProductName().hashCode() : 0;
+        result = 31 * result + (displayedProductName != null ? displayedProductName.hashCode() : 0);
+        return result;
+    }
 }

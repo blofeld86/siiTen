@@ -4,7 +4,8 @@ import java.util.*;
 
 public class CartConsistence {
 
-    public static List<CartConsistence> cartConsistenceList = new ArrayList<>();
+    public static final List<CartConsistence> cartConsistenceList = new ArrayList<>();
+    public static final List<CartConsistence> popUpCcList = new ArrayList<>();
 
     private String name;
     private double price;
@@ -57,6 +58,32 @@ public class CartConsistence {
         return  name +" "+ price +" "+ quantity +" "+ totalOrderCost;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CartConsistence)) return false;
+
+        CartConsistence that = (CartConsistence) o;
+
+        if (Double.compare(that.getPrice(), getPrice()) != 0) return false;
+        if (getQuantity() != that.getQuantity()) return false;
+        if (Double.compare(that.getTotalOrderCost(), getTotalOrderCost()) != 0) return false;
+        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getName() != null ? getName().hashCode() : 0;
+        temp = Double.doubleToLongBits(getPrice());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getQuantity();
+        temp = Double.doubleToLongBits(getTotalOrderCost());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
     public static class Builder {
 
         private String name;
@@ -90,6 +117,5 @@ public class CartConsistence {
         public String toString() {
             return  name +" "+ price +" "+ quantity +" "+ totalOrderCost;
         }
-
     }
 }

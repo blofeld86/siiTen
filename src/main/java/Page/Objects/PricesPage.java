@@ -7,15 +7,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PricesPage extends BasePage{
-
-
-    public PricesPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver,this);
-    }
 
     @FindBy(css = "#link-product-page-prices-drop-1")
     private WebElement pricesDrop;
@@ -32,35 +27,40 @@ public class PricesPage extends BasePage{
     @FindBy(css = "div>.price")
     private List<WebElement> actualPrice;
 
+    private List<Boolean> areProductsDisplayedList = new ArrayList<>();
+    private List<Boolean> discountProductsList = new ArrayList<>();
+    private List<Boolean> regularPriceList = new ArrayList<>();
+    private List<Boolean> discountedPriceList = new ArrayList<>();
+    private List<Boolean> correctnessOfDiscountList = new ArrayList<>();
+
+    public List<Boolean> getAreProductsDisplayedList(){ return areProductsDisplayedList;}
+    public List<Boolean> getDiscountProductsList(){ return discountProductsList;}
+    public List<Boolean> getRegularPriceList(){ return regularPriceList;}
+    public List<Boolean> getDiscountedPriceList(){ return discountedPriceList;}
+    public List<Boolean> getCorrectnessOfDiscountList(){ return correctnessOfDiscountList;}
+
+    public PricesPage(WebDriver driver) { super(driver);}
 
     public PricesPage shouldClickPricesDrop(){
         jse.executeScript("window.scrollBy(0,document.body.scrollHeight)");
-        shouldClickElement(pricesDrop,driver);
+        pricesDrop.click();
         return this;
     }
 
     public PricesPage verifyDisplayedObjects(){
-        wait.until(ExpectedConditions.visibilityOfAllElements(onSaleProducts));
-        for (WebElement element : onSaleProducts) {
-            element.isDisplayed();
-        }
+        getWait().until(ExpectedConditions.visibilityOfAllElements(onSaleProducts));
+        for (WebElement element : onSaleProducts) { areProductsDisplayedList.add(verifyIsDisplayed(element));}
         return this;
     }
 
     public PricesPage verifyPresenceOfDiscounts(){
-        for (WebElement element : discount) {
-            if(element.getText().equals("-20%")){
-                element.isDisplayed();
-            }
-        }
+        for (WebElement element : discount) { discountProductsList.add(verifyIsDisplayed(element));}
         return this;
     }
 
     public PricesPage verifyDisplayOfBothPrices(){
-        for (WebElement element : onSaleProducts) {
-            element.findElement(By.cssSelector(".regular-price")).isDisplayed();
-            element.findElement(By.cssSelector("div>.price")).isDisplayed();
-        }
+        for (WebElement element : originalPrice) { regularPriceList.add(verifyIsDisplayed(element));}
+        for (WebElement element : actualPrice) { discountedPriceList.add(verifyIsDisplayed(element));}
         return this;
     }
 
@@ -69,13 +69,13 @@ public class PricesPage extends BasePage{
             double orgPrice = getFullPriceFromString(originalPrice.get(i).getText());
             double actPrice = getFullPriceFromString(actualPrice.get(i).getText());
             double prcDiscount = changeStringPercentToDouble(discount.get(i).getText());
-            verifyDiscount(orgPrice, actPrice, prcDiscount);
+            correctnessOfDiscountList.add(verifyDiscount(orgPrice, actPrice, prcDiscount));
         }
         return this;
     }
 
     public ProductPage shouldOpenRandomProduct(){
-        shouldClickElement(onSaleProducts.get(random.nextInt(1)),driver);
+        (onSaleProducts.get(getRandom().nextInt(1))).click();
         return new ProductPage(driver);
     }
 }

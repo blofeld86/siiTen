@@ -12,11 +12,17 @@ public class Run {
     public static void main(String[] args) throws InterruptedException {
 
 
-
-
+        System.out.println(verifyPrice(10,8,20));
+        System.out.println(verifyPrice(10,13,17));
 
     }
 
+    public static boolean verifyPrice(int price, int lowerLimit, int higherLimit) {
+        if (price > lowerLimit && price < higherLimit) {
+            return true;
+        }
+        return false;
+    }
 
 
     public static double changeStringPercentToDouble(String value){
@@ -58,4 +64,6 @@ public class Run {
         String[] array= text.split(" ");
         return (Integer.parseInt(array[word])-1);
     }
+
+
 }

@@ -3,7 +3,6 @@ package Page.Objects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CheckOutPage extends BasePage{
@@ -52,13 +51,13 @@ public class CheckOutPage extends BasePage{
     private String address = null;
 
     public CheckOutPage signOpenRegisterForm(){
-        shouldClickElement(signIn,driver);
-        shouldClickElement(registerUser, driver);
+        signIn.click();
+        registerUser.click();
         return this;
     }
 
     public CheckOutPage shouldChooseMale(){
-        shouldClickElement(maleSex,driver);
+        maleSex.click();
         return this;
     }
 
@@ -90,7 +89,7 @@ public class CheckOutPage extends BasePage{
     }
 
     public BasketPage shouldRegister(){
-        wait.until(ExpectedConditions.elementToBeClickable(register));
+        getWait().until(ExpectedConditions.elementToBeClickable(register));
         register.click();
         return new BasketPage(driver);
     }

@@ -1,74 +1,73 @@
 package test.helpers;
 
-import wait.WaitForTheElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class WebElementHandler extends WaitForTheElement {
+public class WebElementHandler {
+
 
     private Actions actions;
+    private Random random;
+    private WebDriverWait wait;
+
+    public Actions getActions() {return actions;}
+    public Random getRandom() {return random;}
+    public WebDriverWait getWait(){return wait;}
+
     public WebElementHandler(WebDriver driver) {
         actions = new Actions(driver);
-    }
-    private Random random = new Random();
-
-    private Logger logger = LoggerFactory.getLogger("WebElementHandler.class");
-
-
-    public void shouldClickElement(WebElement element, WebDriver driver){
-        untilElementIsClickable(element, driver);
-        element.click();
+        random = new Random();
+        wait = new WebDriverWait(driver, Duration.of(12, ChronoUnit.SECONDS));
     }
 
-    public void shouldClickElementByActions(WebElement element, WebDriver driver){
-        untilElementIsClickable(element,driver);
+    private static final Logger logger = LoggerFactory.getLogger("WebElementHandler.class");
+
+
+
+    public void shouldClickElementByActions(WebElement element){
         actions.click(element).perform();
     }
 
-    public void provideValue(WebElement element, String string, WebDriver driver){
-        untilElementIsVisible(element,driver);
+    public void provideValue(WebElement element, String string){
         element.clear();
         element.sendKeys(string);
     }
 
-    public void shouldDoubleClick(WebElement element, WebDriver driver){
-        untilElementIsClickable(element,driver);
+    public void shouldDoubleClick(WebElement element){
         actions.doubleClick(element).perform();
     }
 
-    public void moveToElementAndClick(WebElement element, WebDriver driver){
-        untilElementIsClickable(element,driver);
+    public void moveToElementAndClick(WebElement element){
         actions.moveToElement(element).click(element).perform();
     }
 
     public void shouldFillInput(String text,WebElement element,WebDriver driver){
-        untilElementIsClickable(element,driver);
         element.clear();
         element.sendKeys(text);
         logger.info("Successfully filled the input by the value {}",text);
     }
 
     public void shouldHandleSelectByIndex(int i,WebElement element, WebDriver driver){
-        untilElementIsClickable(element,driver);
         Select select = new Select(element);
         select.selectByIndex(i);
         logger.info("Successfully selected the element with index number: "+i);
     }
 
     public void shouldHandleSelectByValue(String value, WebElement element, WebDriver driver){
-        untilElementIsClickable(element,driver);
         Select select = new Select(element);
         select.selectByValue(value);
         logger.info("Successfully selected the element with the visible text: "+ value);
     }
 
     public void shouldHandleMultipleSelect(int i, WebElement element, WebDriver driver){
-        untilElementIsClickable(element, driver);
         Random random = new Random();
         Select select = new Select(element);
         for (int x =0;x<i; i++){
@@ -82,7 +81,7 @@ public class WebElementHandler extends WaitForTheElement {
         logger.info("Successfully uploaded file from path "+ path);
     }
 
-    public WebElement getRandomWebElementFromList(List<WebElement> list, WebDriver driver){
+    public WebElement getRandomWebElementFromList(List<WebElement> list){
         logger.info("Successfully selected random WebElement");
         return list.get(random.nextInt(list.size()));
     }
@@ -92,7 +91,6 @@ public class WebElementHandler extends WaitForTheElement {
     }
 
     public String getTextFromElement(WebElement element, WebDriver driver){
-        untilElementIsVisible(element,driver);
         return element.getText();
     }
 
@@ -123,7 +121,7 @@ public class WebElementHandler extends WaitForTheElement {
         return list.get(positionOfNumber);
     }
 
-    public void moveSlider(WebElement element,WebDriver driver, int expectedValue, int actualValue) {
+    public void moveSlider(WebElement element, int expectedValue, int actualValue) {
         if(expectedValue < actualValue){
              int result = actualValue - expectedValue;
              actions.clickAndHold(element).perform();
@@ -139,22 +137,25 @@ public class WebElementHandler extends WaitForTheElement {
              }
              actions.release().perform();
         }
-        untilElementIsVisible(element,driver);
     }
 
-    public boolean verifyPrice(int price, int lowerLimit, int higherLimit){
-        boolean result = false;
-        if (price > lowerLimit && price < higherLimit){
-            return result = true;
+    public boolean verifyPrice(int price, int lowerLimit, int higherLimit) {
+        if (price >= lowerLimit && price <= higherLimit) {
+            return true;
         }
-        return result;
+        return false;
     }
 
     public boolean verifyDiscount(double orgPrice, double actPrice, double discount){
-        boolean result;
-        if (actPrice == orgPrice * (1-discount)){ result = true;}
-        else { result = false;}
-        return result;
+        if (actPrice == orgPrice * (1-discount)){ return true;}
+        return false;
+    }
+
+    public boolean verifyIsDisplayed(WebElement element){
+        if (element.isDisplayed()){
+            return true;
+        }
+        return false;
     }
 
     public double getFullPriceFromString(String value){

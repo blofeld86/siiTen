@@ -1,4 +1,5 @@
 import Page.Objects.FiltersPage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class FiltersTest extends BaseTest {
@@ -10,8 +11,12 @@ public class FiltersTest extends BaseTest {
         filtersPage
                 .goToArtCategory()
                 .selectCorrectPrice(9,10)
-                .verifyDisplayedProducts()
+                .enterValuesForVerifying()
                 .clearFilter();
+        for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
+        { boolean value = filtersPage.getBooleanList().get(i).booleanValue();
+            Assertions.assertTrue(value);
+        }
     }
 
     @Test
@@ -20,8 +25,12 @@ public class FiltersTest extends BaseTest {
         filtersPage
                 .goToArtCategory()
                 .selectCorrectPrice(28,29)
-                .verifyDisplayedProducts()
+                .enterValuesForVerifying()
                 .clearFilter();
+        for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
+        { boolean value = filtersPage.getBooleanList().get(i).booleanValue();
+            Assertions.assertTrue(value);
+        }
     }
 
     @Test
@@ -30,7 +39,11 @@ public class FiltersTest extends BaseTest {
         filtersPage
                 .goToArtCategory()
                 .selectCorrectPrice(10,28)
-                .verifyDisplayedProducts()
+                .enterValuesForVerifying()
                 .clearFilter();
+        for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
+        { boolean value = filtersPage.getBooleanList().get(i).booleanValue();
+            Assertions.assertTrue(value);
+        }
     }
 }

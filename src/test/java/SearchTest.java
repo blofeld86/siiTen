@@ -22,16 +22,4 @@ public class SearchTest extends BaseTest{
         Assertions.assertEquals(landingPage.getInputProductName(),landingPage.getDropDownProductName());
     }
 
-
-    @Test
-    void name() throws InterruptedException {
-        LandingPage landingPage = new LandingPage(driver);
-        landingPage
-                  .iterateThroughCategories()
-                  .iterateThroughSubCategories();
-        Assertions.assertEquals(landingPage.getCategoriesListOfNamesOfFirstPage(),landingPage.getCategoriesListOfNamesOfSecondPage());
-        Assertions.assertEquals(landingPage.getSubCategoriesListOfNamesOfFirstPage(),landingPage.getSubCategoriesListOfNamesOfSecondPagePage());
-        Assertions.assertEquals(landingPage.getDisplayedListOfCategoryItems(),landingPage.getSummaryListOfCategoryItems());
-        Assertions.assertEquals(landingPage.getDisplayedListOfSubCategoryItems(),landingPage.getSummaryListOfSubCategoryItems());
-    }
 }

@@ -1,30 +1,23 @@
 import Page.Objects.AddToCartPage;
+import Page.Objects.CartConsistence;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class AddToCartTest extends BaseTest {
 
     @Test
-    void addToCartOne() throws InterruptedException {
+    void addToCartOne(){
         AddToCartPage addToCartPage = new AddToCartPage(driver);
-        addToCartPage
-                     .shouldClickRandomCategory()
-                     .shouldClickRandomProduct()
-                     .shouldAddToCart()
-                     .verifyPopupContent()
-                     .shouldChooseContinueShopping()
-                     .verifyQuantityOfProductsInCart()
-                        .shouldClickRandomCategory()
-                        .shouldClickRandomProduct()
-                        .shouldAddToCart()
-                        .verifyPopupContent()
-                        .shouldChooseContinueShopping()
-                        .verifyQuantityOfProductsInCart()
-                           .shouldClickRandomCategory()
-                           .shouldClickRandomProduct()
-                           .shouldAddToCart()
-                           .verifyPopupContent()
-                           .shouldChooseContinueShopping()
-                           .verifyQuantityOfProductsInCart();
-        Thread.sleep(4000);
+        for(int x=0;x<3;x++) {
+            addToCartPage
+                    .shouldClickRandomCategory()
+                    .shouldClickRandomProduct()
+                    .shouldAddToCart()
+                    .downloadDataFromPopUp()
+                    .shouldChooseContinueShopping();
+            Assertions.assertEquals(CartConsistence.cartConsistenceList, CartConsistence.popUpCcList);
+        }
     }
 }

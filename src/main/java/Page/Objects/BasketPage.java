@@ -2,7 +2,6 @@ package Page.Objects;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import static Page.Objects.CartConsistence.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -86,14 +85,14 @@ public class BasketPage extends BasePage {
 
     public BasketPage shouldAddRandomProducts( int nrOfProd,int qntOfProd,boolean proceed) {
         for (int i = 0; i < nrOfProd; i++) {
-            shouldClickElement(categories.get(random.nextInt(categories.size())), driver);
-            shouldDoubleClick(products.get(random.nextInt(products.size())), driver);
-            int quant = (random.nextInt(qntOfProd-1)) + 1;
+            (categories.get(getRandom().nextInt(categories.size()))).click();
+            shouldDoubleClick(products.get(getRandom().nextInt(products.size())));
+            int quant = (getRandom().nextInt(qntOfProd-1)) + 1;
             shouldFillInput(Integer.toString(quant), input, driver);
             addToCartConsistenceList(productName.getText(),
                     getFullPriceFromString(price.getText()), quant);
-            shouldClickElement(addToCartButton, driver);
-            wait.until(ExpectedConditions.visibilityOf(popup));
+            addToCartButton.click();
+            getWait().until(ExpectedConditions.visibilityOf(popup));
             for (CartConsistence c : cartConsistenceList) {
                 if (popupProductName.getText().equals(c.getName())) ;
                 if (Integer.parseInt(popupQuantity.getText()) == c.getQuantity()) ;
@@ -114,7 +113,7 @@ public class BasketPage extends BasePage {
     }
 
     public BasketPage changeQuantityOfProduct(int cartProductNumber, int quantity) {
-        wait.until(ExpectedConditions.elementToBeClickable(cart));
+        getWait().until(ExpectedConditions.elementToBeClickable(cart));
         cart.click();
         inputCart.sendKeys(Keys.CONTROL + "a");
         inputCart.sendKeys(Keys.DELETE);
@@ -132,7 +131,7 @@ public class BasketPage extends BasePage {
 
 
     public BasketPage verifyExtendingProductQuantity( int cartProductNumber, int actualProductQuantity) {
-        wait.until(ExpectedConditions.elementToBeClickable(arrowUp));
+        getWait().until(ExpectedConditions.elementToBeClickable(arrowUp));
         arrowUp.click();
         ((JavascriptExecutor) driver).executeScript("document.location.reload()");
         cartConsistenceList.get(cartProductNumber).setQuantity(actualProductQuantity);
@@ -151,7 +150,7 @@ public class BasketPage extends BasePage {
     }
 
     public BasketPage verifyReducingProductQuantity( int cartProductNumber, int actualProductQuantity) {
-        wait.until(ExpectedConditions.elementToBeClickable(arrowUp));
+        getWait().until(ExpectedConditions.elementToBeClickable(arrowUp));
         arrowDown.click();
         ((JavascriptExecutor) driver).executeScript("document.location.reload()");
         cartConsistenceList.get(cartProductNumber).setQuantity(actualProductQuantity);
@@ -162,7 +161,7 @@ public class BasketPage extends BasePage {
 
     public BasketPage removeProductAndVerify(){
         for (WebElement element : trash) {
-            wait.until(ExpectedConditions.visibilityOfAllElements(cartItemList));
+            getWait().until(ExpectedConditions.visibilityOfAllElements(cartItemList));
             element.sendKeys(Keys.ENTER);
             cartConsistenceList.remove(0);
             verifyTotalOrderValue();
@@ -170,7 +169,7 @@ public class BasketPage extends BasePage {
         return this;
     }
     public BasketPage verifyCartLastContent(){
-        wait.until(ExpectedConditions.visibilityOf(noItemsCart));
+        getWait().until(ExpectedConditions.visibilityOf(noItemsCart));
         if(noItemsCart.getText().equals("There are no more items in your cart"));
         return this;
     }

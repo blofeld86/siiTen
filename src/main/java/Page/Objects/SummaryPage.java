@@ -3,7 +3,6 @@ package Page.Objects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
@@ -52,7 +51,7 @@ public class SummaryPage extends BasePage{
     }
 
     public SummaryPage shouldGetOrderReferencePayAndDeliveryMethod(){
-        wait.until(ExpectedConditions.visibilityOf(orderReference));
+        getWait().until(ExpectedConditions.visibilityOf(orderReference));
         orderReferenceNumber = orderReference.getText();
         payMethodResult = paymentMethod.getText();
         deliveryResult =  deliveryMethod.getText();

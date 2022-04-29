@@ -1,17 +1,15 @@
 package Page.Objects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FiltersPage extends BasePage{
-
-    public FiltersPage(WebDriver driver){
-        super(driver);
-        PageFactory.initElements(driver,this);}
 
     @FindBy(css = "#category-9>a")
     private WebElement art;
@@ -31,37 +29,47 @@ public class FiltersPage extends BasePage{
     @FindBy(css = "span.price")
     private List<WebElement> displayedProductsPrice;
 
-    @FindBy(xpath = "//div[@id='_desktop_search_filters_clear_all']/button")
+    @FindBy(css = "#_desktop_search_filters_clear_all>button")
     private WebElement clearButton;
 
+    private List<Boolean> booleanList = new ArrayList<>();
+
+    public List<Boolean> getBooleanList(){return booleanList;}
+
+    public FiltersPage(WebDriver driver){ super(driver);}
 
     public FiltersPage goToArtCategory(){
-        shouldClickElement(art,driver);
+        getWait().until(ExpectedConditions.elementToBeClickable(art));
+        art.click();
         return this;
     }
 
     public FiltersPage selectCorrectPrice(int lowerPriceLimit, int higherPriceLimit){
+        getWait().until(ExpectedConditions.visibilityOf(art));
         jse.executeScript("arguments[0].scrollIntoView(true);",slider);
-        moveSlider(leftSliderButton,driver,lowerPriceLimit,getNumberFromString(price.getText(),0));
-        moveSlider(rightSliderButton,driver,higherPriceLimit,getNumberFromString(price.getText(), 2));
+        moveSlider(leftSliderButton,lowerPriceLimit,getNumberFromString(price.getText(),0));
+        moveSlider(rightSliderButton,higherPriceLimit,getNumberFromString(price.getText(), 2));
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter-block")));
         log().info("Successfully selected corrected price");
         return this;
     }
 
-    public FiltersPage verifyDisplayedProducts(){
+    public FiltersPage enterValuesForVerifying(){
         jse.executeScript("arguments[0].scrollIntoView(true);",slider);
-        for (int i=0;i<displayedProductsPrice.size();i++){
-            verifyPrice(getNumberFromString(displayedProductsPrice.get(i).getText()
-                    , 0),getNumberFromString(price.getText()
-                    , 0),getNumberFromString(price.getText()
-                    ,2));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(displayedProductsPrice));
+        for (int i=0;i<displayedProductsPrice.size()-1;i++){
+            boolean value = verifyPrice(
+                    getNumberFromString(displayedProductsPrice.get(i).getText(), 0),
+                    getNumberFromString(price.getText(), 0),
+                    getNumberFromString(price.getText(),2));
+           booleanList.add(Boolean.valueOf(value));
         }
         log().info("Successfully verified displayed products");
         return this;
     }
 
     public FiltersPage clearFilter(){
-        shouldClickElement(clearButton,driver);
+        clearButton.click();
         log().info("Successfully cleared filter");
         return this;
     }

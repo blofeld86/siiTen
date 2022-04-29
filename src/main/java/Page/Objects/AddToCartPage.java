@@ -4,17 +4,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
 public class AddToCartPage extends BasePage{
-
-    public AddToCartPage(WebDriver driver){
-        super(driver);
-        PageFactory.initElements(driver, this);
-    }
 
     @FindBy(css = "#top-menu>.category")
     private List<WebElement> categories;
@@ -34,14 +28,17 @@ public class AddToCartPage extends BasePage{
     @FindBy(css = ".product-name")
     private WebElement popupProductName;
 
-    @FindBy(css = ".current-price>span")
+    @FindBy(css = "span[itemprop='price']")
     private WebElement pagePrice;
 
     @FindBy(css = ".subtotal.value")
-    private WebElement popupPrice;
+    private WebElement popupSubTotalPrice;
 
     @FindBy(css = ".product-quantity>strong")
     private WebElement popupProductQuantity;
+
+    @FindBy(css = "#blockcart-modal .product-price")
+    private WebElement popUpPrice;
 
     @FindBy(css =".subtotal")
     private WebElement subtotalPopupPrice;
@@ -61,53 +58,48 @@ public class AddToCartPage extends BasePage{
     @FindBy(css = ".cart-products-count")
     private WebElement pageProductsInCart;
 
-    private static int quantityOfProductsInCart;
-
-
+    public AddToCartPage(WebDriver driver){ super(driver);}
 
     public AddToCartPage shouldClickRandomCategory(){
-        wait.until(ExpectedConditions.visibilityOfAllElements(categories));
-        getRandomWebElementFromList(categories,driver).click();
+        getWait().until(ExpectedConditions.visibilityOfAllElements(categories));
+        getRandomWebElementFromList(categories).click();
         return this;
     }
 
     public AddToCartPage shouldClickRandomProduct(){
-        WebElement product = getRandomWebElementFromList(products,driver);
+        WebElement product = getRandomWebElementFromList(products);
         jse.executeScript("arguments[0].scrollIntoView(true);",product);
-        shouldClickElement(product, driver);
+        product.click();
         return this;
     }
 
     public AddToCartPage shouldAddToCart(){
-        quantityOfProductsInCart = random.nextInt(4);
-        provideValue(productsInput,Integer.toString(quantityOfProductsInCart),driver);
-        shouldClickElement(addToCartButton,driver);
+        int pgProdQuantity = getRandom().nextInt(4)+1;
+        double pPrice = getFullPriceFromString(pagePrice.getText());
+        provideValue(productsInput,Integer.toString(pgProdQuantity));
+        CartConsistence.cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder().
+                buildName(pageProductName.getText()).
+                buildPrice(pPrice).
+                buildQuantity(pgProdQuantity).
+                buildTotalOrderCost(pgProdQuantity * pPrice)));
+        addToCartButton.click();
         return this;
     }
 
-    public AddToCartPage verifyPopupContent(){
-        wait.until(ExpectedConditions.visibilityOf(popupProductName));
-        Double pagePriceValue = getFullPriceFromString(pagePrice.getText());
-        Double popupPriceValue = getFullPriceFromString(popupPrice.getText());
-        Double subtotalPrice = getFullPriceFromString(subtotalPopupPrice.getText());
-        if(pageProductName.getText().equals(popupProductName.getText()));
-        if (pagePriceValue == popupPriceValue);
-        if (subtotalPrice/popupPriceValue == Double.parseDouble(popupProductQuantity.getText()));
-        if (getNumberFromString(popupSummary.getText(),0)==Integer.parseInt(popupProductQuantity.getText()));
+    public AddToCartPage downloadDataFromPopUp(){
+        getWait().until(ExpectedConditions.visibilityOf(popupProductName));
+        double pPrice = getFullPriceFromString(popUpPrice.getText());
+        int quant = Integer.parseInt(popupProductQuantity.getText());
+        CartConsistence.popUpCcList.add(new CartConsistence(new CartConsistence.Builder()
+                .buildName(popupProductName.getText())
+                .buildPrice(pPrice)
+                .buildQuantity(quant)
+                .buildTotalOrderCost(pPrice * quant)));
         return this;
     }
 
     public AddToCartPage shouldChooseContinueShopping(){
-        ((JavascriptExecutor)driver).executeScript("document.location.reload()");
-        actions.click(continueShopping);
+        continueShopping.click();
         return this;
     }
-
-    public AddToCartPage verifyQuantityOfProductsInCart(){
-        int actValue = getNumberFromString(cartQuantityProducts.getText(),0);
-        if(quantityOfProductsInCart == actValue);
-        return this;
-    }
-
-
 }
