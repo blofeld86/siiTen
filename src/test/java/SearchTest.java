@@ -1,7 +1,10 @@
 import Page.Objects.LandingPage;
 import Page.Objects.ProductDetails;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SearchTest extends BaseTest{
 
@@ -11,15 +14,15 @@ public class SearchTest extends BaseTest{
         ProductDetails productDetails = landingPage
                    .enterRandomProductNameIntoField()
                    .shouldClickSearchButton();
-        Assertions.assertEquals(landingPage.getInputProductName(),productDetails.getProductName());
+        assertEquals(landingPage.getInputProductName(),productDetails.getProductName());
     }
 
     @Test
-    void searchTestDropdown() throws InterruptedException {
+    void searchTestDropdown(){
         LandingPage landingPage = new LandingPage(driver);
         landingPage
                 .enterRandomProductNameIntoField();
-        Assertions.assertEquals(landingPage.getInputProductName(),landingPage.getDropDownProductName());
+        assertEquals(landingPage.getInputProductName(),landingPage.getDropDownProductName());
     }
 
 }

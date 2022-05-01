@@ -1,16 +1,23 @@
 import Page.Objects.*;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
+import test.helpers.WebElementHandler;
+import static Page.Objects.CartConsistence.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class CheckOutTest extends BaseTest{
 
     @Test
     void checkOutOne() throws InterruptedException {
-        CheckOutPage checkOutPage = new CheckOutPage(driver);
+        LandingPage landingPage = new LandingPage(driver);
         ProceedOrderPage proceedOrderPage = new ProceedOrderPage(driver);
         SummaryPage summaryPage = new SummaryPage(driver);
         OrderHistoryPage orderHistoryPage = new OrderHistoryPage(driver);
-        checkOutPage
+        BasketPage basketPage = new BasketPage(driver);
+        landingPage
                     .signOpenRegisterForm()
                     .shouldChooseMale()
                     .shouldProvideFirstAndLastName()
@@ -25,17 +32,32 @@ public class CheckOutTest extends BaseTest{
                     .shouldChoosePaymentOption()
                     .shouldHandleTermsPopup()
                     .shouldPlaceAnOrder()
-                    .shouldVerifyOrder()
+                    .getOrderData()
                     .shouldGetOrderReferencePayAndDeliveryMethod()
                     .shouldGoToOrderHistory()
                     .shouldUploadOrderData()
                     .shouldOpenDetails()
                     .shouldFillListByValues()
                     .shouldGetTheCustomerData();
-        Assertions.assertEquals(proceedOrderPage.getDeliveryMethod(),summaryPage.getDeliveryResult());
-        Assertions.assertEquals(proceedOrderPage.getPayMethod(),summaryPage.getPayMethodResult());
-        Assertions.assertEquals(proceedOrderPage.getAddressValue(),orderHistoryPage.getDelivAddress());
 
-        Thread.sleep(4000);
+        assertEquals(orderHistoryPage.getDate().getText(), WebElementHandler.getTodayDate());
+        assertEquals(basketPage.getDisplayedTotalPrice(),orderHistoryPage.getTotalPriceValue());
+        assertEquals(proceedOrderPage.getAddressValue(),orderHistoryPage.getDelivAddress());
+        assertEquals(proceedOrderPage.getAddressValue(),orderHistoryPage.getInvAddress());
+        for ( WebElement e: proceedOrderPage.getPopUpList()) {assertTrue(e.isDisplayed());}
+        for (String s : proceedOrderPage.getDeliveryList()){ assertEquals(s,summaryPage.getDeliveryResult());}
+        for (String s : proceedOrderPage.getPayMethodList()){ assertEquals(s,summaryPage.getPayMethodResult());}
+        for (String s : orderHistoryPage.getStatusValueList()){ assertEquals(s, "Awaiting bank wire payment");}
+        for(int i=0;i<cartConsistenceList.size();i++) {
+            assertTrue(summaryPage.doesStringContainsString(addedProductsList.get(i).getName(),cartConsistenceList.get(i).getName()));
+            assertEquals(cartConsistenceList.get(i).getPrice(),addedProductsList.get(i).getPrice());
+            assertEquals(cartConsistenceList.get(i).getQuantity(),addedProductsList.get(i).getQuantity());
+        }
+        for(int i =0;i<cartConsistenceList.size();i++){
+            assertTrue(summaryPage.doesStringContainsString(orderHistoryList.get(i).getName(),cartConsistenceList.get(i).getName()));
+            assertEquals(orderHistoryList.get(i).getPrice(),cartConsistenceList.get(i).getPrice());
+            assertEquals(orderHistoryList.get(i).getQuantity(),cartConsistenceList.get(i).getQuantity());
+        }
     }
 }
+

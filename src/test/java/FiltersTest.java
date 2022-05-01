@@ -2,8 +2,9 @@ import Page.Objects.FiltersPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FiltersTest extends BaseTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+public class FiltersTest extends BaseTest {
 
     @Test
     void sliderFirstValue(){
@@ -15,7 +16,7 @@ public class FiltersTest extends BaseTest {
                 .clearFilter();
         for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
         { boolean value = filtersPage.getBooleanList().get(i).booleanValue();
-            Assertions.assertTrue(value);
+            assertTrue(value);
         }
     }
 
@@ -29,7 +30,7 @@ public class FiltersTest extends BaseTest {
                 .clearFilter();
         for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
         { boolean value = filtersPage.getBooleanList().get(i).booleanValue();
-            Assertions.assertTrue(value);
+            assertTrue(value);
         }
     }
 
@@ -43,7 +44,7 @@ public class FiltersTest extends BaseTest {
                 .clearFilter();
         for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
         { boolean value = filtersPage.getBooleanList().get(i).booleanValue();
-            Assertions.assertTrue(value);
+            assertTrue(value);
         }
     }
 }

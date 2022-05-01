@@ -1,11 +1,11 @@
 package Page.Objects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,32 +39,34 @@ public class PricesPage extends BasePage{
     public List<Boolean> getDiscountedPriceList(){ return discountedPriceList;}
     public List<Boolean> getCorrectnessOfDiscountList(){ return correctnessOfDiscountList;}
 
+    public static final Logger logger = LoggerFactory.getLogger("PricesPage.class");
     public PricesPage(WebDriver driver) { super(driver);}
 
     public PricesPage shouldClickPricesDrop(){
         jse.executeScript("window.scrollBy(0,document.body.scrollHeight)");
         pricesDrop.click();
+        logger.info("Successfully clicked prices drop");
         return this;
     }
 
-    public PricesPage verifyDisplayedObjects(){
+    public PricesPage fillDisplayedObjectList(){
         getWait().until(ExpectedConditions.visibilityOfAllElements(onSaleProducts));
         for (WebElement element : onSaleProducts) { areProductsDisplayedList.add(verifyIsDisplayed(element));}
         return this;
     }
 
-    public PricesPage verifyPresenceOfDiscounts(){
+    public PricesPage fillPresenceOfDiscountList(){
         for (WebElement element : discount) { discountProductsList.add(verifyIsDisplayed(element));}
         return this;
     }
 
-    public PricesPage verifyDisplayOfBothPrices(){
+    public PricesPage fillBothPricesList(){
         for (WebElement element : originalPrice) { regularPriceList.add(verifyIsDisplayed(element));}
         for (WebElement element : actualPrice) { discountedPriceList.add(verifyIsDisplayed(element));}
         return this;
     }
 
-    public PricesPage verifyCorrectnessOfDiscount(){
+    public PricesPage fillCorrectnessOfDiscountList(){
         for (int i = 0; i<onSaleProducts.size();i++) {
             double orgPrice = getFullPriceFromString(originalPrice.get(i).getText());
             double actPrice = getFullPriceFromString(actualPrice.get(i).getText());
@@ -76,6 +78,7 @@ public class PricesPage extends BasePage{
 
     public ProductPage shouldOpenRandomProduct(){
         (onSaleProducts.get(getRandom().nextInt(1))).click();
+        logger.info("Successfully clicked discounted product");
         return new ProductPage(driver);
     }
 }

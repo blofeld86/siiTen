@@ -1,6 +1,7 @@
 package models;
 
 import com.github.javafaker.Faker;
+import models.User;
 
 import java.util.Random;
 
@@ -24,10 +25,4 @@ public class UserFactory {
 
     }
 
-    public static void main(String[] args) {
-        Faker faker = new Faker();
-
-        System.out.println(faker.phoneNumber().subscriberNumber(9));
-
-    }
 }

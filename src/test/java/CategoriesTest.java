@@ -2,6 +2,8 @@ import Page.Objects.LandingPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class CategoriesTest extends BaseTest{
 
 
@@ -9,11 +11,12 @@ public class CategoriesTest extends BaseTest{
     void name() throws InterruptedException {
         LandingPage landingPage = new LandingPage(driver);
         landingPage
-                .iterateThroughCategories()
-                .iterateThroughSubCategories();
-        Assertions.assertEquals(landingPage.getCategoriesListOfNamesOfFirstPage(),landingPage.getCategoriesListOfNamesOfSecondPage());
-        Assertions.assertEquals(landingPage.getSubCategoriesListOfNamesOfFirstPage(),landingPage.getSubCategoriesListOfNamesOfSecondPagePage());
-        Assertions.assertEquals(landingPage.getDisplayedListOfCategoryItems(),landingPage.getSummaryListOfCategoryItems());
-        Assertions.assertEquals(landingPage.getDisplayedListOfSubCategoryItems(),landingPage.getSummaryListOfSubCategoryItems());
+                   .iterateThroughCategories()
+                   .iterateThroughSubCategories();
+
+        assertEquals(landingPage.getCategoriesListOfNamesOfFirstPage(),landingPage.getCategoriesListOfNamesOfSecondPage());
+        assertEquals(landingPage.getSubCategoriesListOfNamesOfFirstPage(),landingPage.getSubCategoriesListOfNamesOfSecondPagePage());
+        assertEquals(landingPage.getDisplayedListOfCategoryItems(),landingPage.getSummaryListOfCategoryItems());
+        assertEquals(landingPage.getDisplayedListOfSubCategoryItems(),landingPage.getSummaryListOfSubCategoryItems());
     }
 }

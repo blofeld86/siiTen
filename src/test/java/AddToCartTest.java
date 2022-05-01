@@ -2,8 +2,8 @@ import Page.Objects.AddToCartPage;
 import Page.Objects.CartConsistence;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static Page.Objects.CartConsistence.*;
 
 public class AddToCartTest extends BaseTest {
 
@@ -17,7 +17,7 @@ public class AddToCartTest extends BaseTest {
                     .shouldAddToCart()
                     .downloadDataFromPopUp()
                     .shouldChooseContinueShopping();
-            Assertions.assertEquals(CartConsistence.cartConsistenceList, CartConsistence.popUpCcList);
+           assertEquals(cartConsistenceList, popUpCcList);
         }
     }
 }

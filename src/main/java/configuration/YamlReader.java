@@ -21,7 +21,7 @@ public class YamlReader {
         try{
             return objectMapper.readValue(new File(System.getProperty("user.dir")+
                     "\\src\\main\\resources\\properties.yaml"), Pojo.class);
-        }catch (IOException e){ log.error("Can not read properties from file due to IO Exception");}
+        }catch (IOException e){ log.error("Can not read properties due to IO Exception");}
         return null;
     }
 

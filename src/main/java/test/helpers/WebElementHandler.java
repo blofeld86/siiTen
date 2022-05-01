@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -22,14 +24,12 @@ public class WebElementHandler {
     public Random getRandom() {return random;}
     public WebDriverWait getWait(){return wait;}
 
+    private static final Logger logger = LoggerFactory.getLogger("WebElementHandler.class");
     public WebElementHandler(WebDriver driver) {
         actions = new Actions(driver);
         random = new Random();
         wait = new WebDriverWait(driver, Duration.of(12, ChronoUnit.SECONDS));
     }
-
-    private static final Logger logger = LoggerFactory.getLogger("WebElementHandler.class");
-
 
 
     public void shouldClickElementByActions(WebElement element){
@@ -196,13 +196,9 @@ public class WebElementHandler {
         logger.info("Successfully switched and closed the previous window");
     }
 
-
-
-
-
-
-
-
-
-
+    public static String getTodayDate(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate localDate = LocalDate.now();
+        return dateTimeFormatter.format(localDate);
+    }
 }

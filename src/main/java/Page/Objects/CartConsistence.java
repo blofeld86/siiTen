@@ -1,11 +1,14 @@
 package Page.Objects;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartConsistence {
 
     public static final List<CartConsistence> cartConsistenceList = new ArrayList<>();
     public static final List<CartConsistence> popUpCcList = new ArrayList<>();
+    public static final List<CartConsistence> addedProductsList = new ArrayList<>();
+    public static final List<CartConsistence> orderHistoryList = new ArrayList<>();
 
     private String name;
     private double price;
@@ -34,23 +37,23 @@ public class CartConsistence {
 
     public static void addToCartConsistenceList(String cName, double cPrice, int cQuantity){
         cartConsistenceList.add(new CartConsistence(new CartConsistence.Builder()
-                    .buildName(cName).buildPrice(cPrice).buildQuantity(cQuantity)));
-            cartConsistenceList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+                .buildName(cName).buildPrice(cPrice).buildQuantity(cQuantity)));
+        cartConsistenceList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
         CartConsistence last = null;
-          for (int i = 0; i < cartConsistenceList.size(); i++) {
-              CartConsistence cartConsistence = cartConsistenceList.get(i);
-              if(i==0){
+        for (int i = 0; i < cartConsistenceList.size(); i++) {
+            CartConsistence cartConsistence = cartConsistenceList.get(i);
+            if(i==0){
                 last = cartConsistence;
                 continue;
-              }
-              if(last.getName().equals(cartConsistence.getName())){
+            }
+            if(last.getName().equals(cartConsistence.getName())){
                 last.increaseQuantity(cartConsistence.getQuantity());
                 cartConsistenceList.remove(cartConsistence);
                 i--;
-              }else{
+            }else{
                 last = cartConsistence;
-              }
-          }
+            }
+        }
     }
 
     @Override

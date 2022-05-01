@@ -3,16 +3,15 @@ package Page.Objects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import static Page.Objects.CartConsistence.*;
 
-public class OrderHistoryPage extends BasePage {
-
-    @FindBy(css = "th[scope='row']")
-    private WebElement orderReference;
+public class OrderHistoryPage  extends BasePage {
 
     @FindBy(css = "td.text-xs-right")
     private WebElement totalPrice;
@@ -29,8 +28,8 @@ public class OrderHistoryPage extends BasePage {
     @FindBy(css = "#order-products td:nth-child(2)")
     private List<WebElement> productsQuantity;
 
-    @FindBy(css = "#order-products td:nth-child(4)")
-    private List<WebElement> productTotalPrices;
+    @FindBy(css = "#order-products td:nth-child(3)")
+    private List<WebElement> productSinglePrices;
 
     @FindBy(css = "#delivery-address>address")
     private WebElement deliveryAddress;
@@ -38,59 +37,57 @@ public class OrderHistoryPage extends BasePage {
     @FindBy(css = "#invoice-address>address")
     private WebElement invoiceAddress;
 
-    public OrderHistoryPage(WebDriver driver) { super(driver);}
+    @FindBy(css = "tbody>tr>td:nth-of-type(1)")
+    private WebElement date;
 
-    private String date = null;
+
     private double totalPriceValue = 0;
-    private String statusValue = null;
-    private List<CartConsistence> orderHistoryList = new ArrayList<>();
+
+    private List<String> statusValueList = new ArrayList<>();
+
 
     private String delivAddress = null;
     private String invAddress = null;
 
-    public String getDate(){return date;}
+    public WebElement getDate(){return date;}
     public double getTotalPriceValue(){return totalPriceValue;}
-    public String getStatusValue(){return statusValue;}
-    public List<CartConsistence> getOrderHistoryList(){return orderHistoryList;}
+    public List<String> getStatusValueList(){return statusValueList;}
     public String getDelivAddress(){return delivAddress;}
     public String getInvAddress(){return invAddress;}
 
+    public static final Logger logger = LoggerFactory.getLogger("OrderHistoryPage.class");
+    public OrderHistoryPage(WebDriver driver) { super(driver);}
+
 
     public OrderHistoryPage shouldUploadOrderData() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate localDate = LocalDate.now();
-        date = dateTimeFormatter.format(localDate);
         totalPriceValue = getFullPriceFromString(totalPrice.getText());
-        statusValue = orderStatus.getText();
+        statusValueList.add(orderStatus.getText());
         return this;
     }
 
     public OrderHistoryPage shouldOpenDetails() {
         details.click();
+        logger.info("Successfully opened the details");
         return this;
     }
 
     public OrderHistoryPage shouldFillListByValues() {
         for (int i = 0; i < productNames.size(); i++) {
-            shouldFillOrderList(productNames.get(i).getText(),
-                    Integer.parseInt(productsQuantity.get(i).getText()),
-            getFullPriceFromString(productTotalPrices.get(i).getText()));
+            orderHistoryList.add(new CartConsistence(new CartConsistence.Builder()
+                            .buildName(productNames.get(i).getText())
+                            .buildPrice(getFullPriceFromString(productSinglePrices.get(i).getText()))
+                            .buildQuantity(Integer.parseInt(productsQuantity.get(i).getText()))));
         }
+        orderHistoryList.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
         return this;
     }
 
     public OrderHistoryPage shouldGetTheCustomerData(){
+        getWait().until(ExpectedConditions.visibilityOf(deliveryAddress));
         String[] split = deliveryAddress.getText().split("\n");
         String[] split2 = invoiceAddress.getText().split("\n");
         delivAddress = split[2];
         invAddress = split2[2];
         return this;
-    }
-
-    public void shouldFillOrderList(String name, int quantity, double totalPriceValue){
-        orderHistoryList.add(new CartConsistence(new CartConsistence.Builder()
-                .buildName(name)
-                .buildQuantity(quantity)
-                .buildTotalOrderCost(totalPriceValue)));
     }
 }

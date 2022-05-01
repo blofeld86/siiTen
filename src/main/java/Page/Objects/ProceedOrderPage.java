@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +40,25 @@ public class ProceedOrderPage extends BasePage {
     @FindBy(css = "[name='confirm-addresses']")
     WebElement continueButton;
 
-    @FindBy(css = "[name='confirmDeliveryOption']")
+    @FindBy(name = "confirmDeliveryOption")
     WebElement confirmDeliveryOption;
 
     @FindBy(css = ".delivery-option:nth-child(1) .col-sm-1")
     WebElement deliveryTesterSii;
 
+    @FindBy(css = "[for='delivery_option_1'] .carrier-delay")
+    WebElement deliveryOptionSiiText;
+
     @FindBy(css = "#delivery_option_2")
     WebElement deliveryMan;
+
+    @FindBy(css = "[for='delivery_option_2'] .carrier-delay")
+    WebElement deliveryOptionDelManText;
 
     @FindBy(css = "#payment-option-1")
     WebElement payByCheck;
 
-    @FindBy(css ="#payment-option-2")
+    @FindBy(css = "#payment-option-2")
     WebElement payByBank;
 
     @FindBy(css = "#cta-terms-and-conditions-0")
@@ -68,73 +76,70 @@ public class ProceedOrderPage extends BasePage {
     @FindBy(css = "#payment-confirmation button")
     WebElement placeOrder;
 
-    public ProceedOrderPage(WebDriver driver) { super(driver);}
-
-    private String payMethod;
-    private String deliveryMethod;
     private String addressValue;
     private List<WebElement> popUpList = new ArrayList<>();
+    private List<String> deliveryList = new ArrayList<>();
+    private List<String> payMethodList = new ArrayList<>();
 
-    public String getPayMethod(){return payMethod;}
-    public String getDeliveryMethod(){return deliveryMethod;}
-    public String getAddressValue(){return addressValue;}
-    public List<WebElement> getPopUpList(){return popUpList;}
+    public String getAddressValue() {return addressValue;}
+    public List<WebElement> getPopUpList() {return popUpList;}
+    public List<String> getDeliveryList(){return deliveryList;}
+    public List<String> getPayMethodList(){return payMethodList;}
 
+    public static final Logger logger = LoggerFactory.getLogger("ProceedOrderPage.class");
+    public ProceedOrderPage(WebDriver driver) {
+        super(driver);
+    }
 
-
-    public ProceedOrderPage shouldFillForm(){
+    public ProceedOrderPage shouldFillForm() {
         addressValue = userFactory.getRandomUser().getStreet();
-        shouldFillInput(userFactory.getRandomUser().getFirstName(),alias,driver);
-        shouldFillInput(userFactory.getRandomUser().getCompany(),company,driver);
-        shouldFillInput(addressValue,address,driver);
-        shouldFillInput(userFactory.getRandomUser().getCity(),city,driver);
+        shouldFillInput(userFactory.getRandomUser().getFirstName(), alias, driver);
+        shouldFillInput(userFactory.getRandomUser().getCompany(), company, driver);
+        shouldFillInput(addressValue, address, driver);
+        shouldFillInput(userFactory.getRandomUser().getCity(), city, driver);
         Select select = new Select(selectState);
-        jse.executeScript("arguments[0].scrollIntoView(true);",select);
+        jse.executeScript("arguments[0].scrollIntoView(true);", select);
         select.selectByIndex(getRandom().nextInt(59));
-        shouldFillInput(userFactory.getRandomUser().getZipCode(),zipCode,driver);
+        shouldFillInput(userFactory.getRandomUser().getZipCode(), zipCode, driver);
         Select select1 = new Select(selectCountry);
         select1.selectByValue("14");
-        shouldFillInput(userFactory.getRandomUser().getPhone(),phone,driver);
+        shouldFillInput(userFactory.getRandomUser().getPhone(), phone, driver);
         continueButton.click();
+        logger.info("Successfully filled the form");
         return this;
     }
 
-    public ProceedOrderPage shouldChooseDelivery(){
+    public ProceedOrderPage shouldChooseDelivery() {
         deliveryMan.click();
-        if(deliveryTesterSii.isSelected()){
-            deliveryMethod = "Pick up in-store";
-        }else if(deliveryMan.isSelected()){
-            deliveryMethod = "Delivery next day!";
-        }
+        if(deliveryTesterSii.isSelected()){deliveryList.add(deliveryOptionSiiText.getText());}
+        else if(deliveryMan.isSelected()){deliveryList.add(deliveryOptionDelManText.getText());}
+        getWait().until(ExpectedConditions.elementToBeClickable(confirmDeliveryOption));
         confirmDeliveryOption.click();
+        logger.info("Successfully chosen delivery");
         return this;
     }
 
-    public ProceedOrderPage shouldChoosePaymentOption(){
+    public ProceedOrderPage shouldChoosePaymentOption() {
         payByBank.click();
-        if(payByCheck.isSelected()){
-            payMethod = "Payment method: Payments by check";
-        } else if (payByBank.isSelected()){
-            payMethod = "Payment method: Bank transfer";
-        }
+        if (payByCheck.isSelected()) { getPayMethodList().add("Payment method: Payments by check");}
+        else if (payByBank.isSelected()) { getPayMethodList().add("Payment method: Bank transfer");}
+        logger.info("Successfully chosen payment option");
         return this;
     }
 
-    public ProceedOrderPage shouldHandleTermsPopup(){
+    public ProceedOrderPage shouldHandleTermsPopup() {
         termsOfService.click();
         getWait().until(ExpectedConditions.visibilityOfAllElements(popUpContent));
-        for (WebElement e:popUpContent) { popUpList.add(e);}
+        for (WebElement e : popUpContent) {popUpList.add(e);}
         closePopup.click();
         agreeTerms.click();
+        logger.info("Successfully verified the terms");
         return this;
     }
 
-    public SummaryPage shouldPlaceAnOrder(){
+    public SummaryPage shouldPlaceAnOrder() {
         placeOrder.click();
+        logger.info("Successfully placed an order");
         return new SummaryPage(driver);
     }
-
-
-
-
 }

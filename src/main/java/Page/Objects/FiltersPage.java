@@ -5,11 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiltersPage extends BasePage{
+public class FiltersPage  extends BasePage{
 
     @FindBy(css = "#category-9>a")
     private WebElement art;
@@ -33,14 +35,16 @@ public class FiltersPage extends BasePage{
     private WebElement clearButton;
 
     private List<Boolean> booleanList = new ArrayList<>();
-
     public List<Boolean> getBooleanList(){return booleanList;}
 
+
+    public static final Logger logger = LoggerFactory.getLogger("FiltersPage.class");
     public FiltersPage(WebDriver driver){ super(driver);}
 
     public FiltersPage goToArtCategory(){
         getWait().until(ExpectedConditions.elementToBeClickable(art));
         art.click();
+        logger.info("Successfully opened art category");
         return this;
     }
 
@@ -62,7 +66,7 @@ public class FiltersPage extends BasePage{
                     getNumberFromString(displayedProductsPrice.get(i).getText(), 0),
                     getNumberFromString(price.getText(), 0),
                     getNumberFromString(price.getText(),2));
-           booleanList.add(Boolean.valueOf(value));
+            booleanList.add(value);
         }
         log().info("Successfully verified displayed products");
         return this;
@@ -73,7 +77,4 @@ public class FiltersPage extends BasePage{
         log().info("Successfully cleared filter");
         return this;
     }
-
-
-
 }

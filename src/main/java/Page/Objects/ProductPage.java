@@ -3,8 +3,8 @@ package Page.Objects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,10 @@ public class ProductPage extends BasePage{
     public WebElement getActualPrice(){ return actualPrice;}
     public List<Boolean> getPriceCorrectnessList() { return priceCorrectnessList;}
 
+    public static final Logger logger = LoggerFactory.getLogger("ProductPage.class");
     public ProductPage(WebDriver driver){ super(driver);}
 
-    public ProductPage shouldUploadCorrectnessOfDiscount() throws InterruptedException {
+    public ProductPage shouldUploadCorrectnessOfDiscount() {
         double orgPrice = getFullPriceFromString(originalPrice.getText());
         double actPrice = getFullPriceFromString(actualPrice.getText());
         double proDiscount = changeStringPercentToDouble(save20percentLabel.getText());

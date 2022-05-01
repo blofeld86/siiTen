@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -31,33 +33,16 @@ public class AddToCartPage extends BasePage{
     @FindBy(css = "span[itemprop='price']")
     private WebElement pagePrice;
 
-    @FindBy(css = ".subtotal.value")
-    private WebElement popupSubTotalPrice;
-
     @FindBy(css = ".product-quantity>strong")
     private WebElement popupProductQuantity;
 
     @FindBy(css = "#blockcart-modal .product-price")
     private WebElement popUpPrice;
 
-    @FindBy(css =".subtotal")
-    private WebElement subtotalPopupPrice;
-
-    @FindBy(css = ".cart-products-count")
-    private WebElement popupSummary;
-
     @FindBy(css= ".btn.btn-secondary")
     private WebElement continueShopping;
 
-    @FindBy(css = "#_desktop_cart .cart-products-count")
-    private WebElement cartQuantityProducts;
-
-    @FindBy(css = "#blockcart-modal:nth-of-type(4) .product-price")
-    private WebElement popupProductPrice;
-
-    @FindBy(css = ".cart-products-count")
-    private WebElement pageProductsInCart;
-
+    public Logger logger = LoggerFactory.getLogger("AddToCartPage.class");
     public AddToCartPage(WebDriver driver){ super(driver);}
 
     public AddToCartPage shouldClickRandomCategory(){
@@ -70,6 +55,7 @@ public class AddToCartPage extends BasePage{
         WebElement product = getRandomWebElementFromList(products);
         jse.executeScript("arguments[0].scrollIntoView(true);",product);
         product.click();
+        logger.info("Successfully chosen random product");
         return this;
     }
 
@@ -83,6 +69,7 @@ public class AddToCartPage extends BasePage{
                 buildQuantity(pgProdQuantity).
                 buildTotalOrderCost(pgProdQuantity * pPrice)));
         addToCartButton.click();
+        logger.info("Successfully added random product to cart");
         return this;
     }
 
@@ -100,6 +87,7 @@ public class AddToCartPage extends BasePage{
 
     public AddToCartPage shouldChooseContinueShopping(){
         continueShopping.click();
+        logger.info("Successfully pressed 'Continue Shopping'");
         return this;
     }
 }

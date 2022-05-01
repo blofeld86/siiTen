@@ -4,14 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CheckOutPage extends BasePage{
-
-    @FindBy(css = ".user-info>a")
-    private WebElement signIn;
-
-    @FindBy(css = ".no-account>a")
-    private WebElement registerUser;
 
     @FindBy(css = ".radio-inline:nth-child(2)")
     private WebElement maleSex;
@@ -46,15 +42,8 @@ public class CheckOutPage extends BasePage{
     @FindBy(css = "footer>[type='submit']")
     private WebElement register;
 
+    public static final Logger logger = LoggerFactory.getLogger("CheckOutPage.class");
     public CheckOutPage(WebDriver driver){ super(driver);}
-
-    private String address = null;
-
-    public CheckOutPage signOpenRegisterForm(){
-        signIn.click();
-        registerUser.click();
-        return this;
-    }
 
     public CheckOutPage shouldChooseMale(){
         maleSex.click();
@@ -64,18 +53,21 @@ public class CheckOutPage extends BasePage{
     public CheckOutPage shouldProvideFirstAndLastName(){
         shouldFillInput(userFactory.getRandomUser().getFirstName(),firstName,driver);
         shouldFillInput(userFactory.getRandomUser().getLastName(),lastName,driver);
+        logger.info("Successfully provided first and last name");
         return this;
     }
 
     public CheckOutPage shouldProvideMailAndPassword(){
         shouldFillInput(userFactory.getRandomUser().getMail(),email,driver);
         shouldFillInput(userFactory.getRandomUser().getPassword(),password,driver);
+        logger.info("Successfully provided mail and password");
         return this;
     }
 
     public CheckOutPage shouldProvideBirthdate( int month, int day, int year){
         String birthday = Integer.toString(month)+"/"+Integer.toString(day)+"/"+Integer.toString(year);
         shouldFillInput(birthday,birthdate,driver);
+        logger.info("Successfully provided birthdate");
         return this;
     }
 
@@ -85,12 +77,14 @@ public class CheckOutPage extends BasePage{
         customerPrivacy.click();
         newsletter.click();
         privacyPolitic.click();
+        logger.info("Successfully marked the checkboxes");
         return this;
     }
 
     public BasketPage shouldRegister(){
         getWait().until(ExpectedConditions.elementToBeClickable(register));
         register.click();
+        logger.info("Successfully registered new user");
         return new BasketPage(driver);
     }
 
