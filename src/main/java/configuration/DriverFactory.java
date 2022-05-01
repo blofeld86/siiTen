@@ -23,27 +23,16 @@ public class DriverFactory {
         try{
             switch (browser){
                 case CHROME:
-                    logger.info("Successfully chosen chrome browser");
-                    ChromeOptions chromeOptions = new ChromeOptions();
-                    WebDriverManager.chromedriver().setup();
-                    chromeOptions.addArguments("start-maximized");
-                    return driver = new ChromeDriver(chromeOptions);
+                    driver = getChromeDriverAndProperties();
+                    break;
                 case FIREFOX:
-                    logger.info("Successfully chosen firefox browser");
-                    FirefoxOptions firefoxOptions = new FirefoxOptions();
-                    WebDriverManager.firefoxdriver().setup();
-                    firefoxOptions.addArguments("start-maximized");
-                    return driver = new FirefoxDriver(firefoxOptions);
+                    driver = getFirefoxDriverAndProperties();
+                    break;
                 case IE:
-                    logger.info("Successfully chosen internet explorer browser");
-                    InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions();
-                    WebDriverManager.iedriver().setup();
-                    return driver = new InternetExplorerDriver(internetExplorerOptions);
+                    driver = getIEPDriverAndProperties();
+                    break;
                 default:
-                    logger.info("Successfully chosen edge browser");
-                    EdgeOptions edgeOptions = new EdgeOptions();
-                    WebDriverManager.edgedriver().setup();
-                    return driver = new EdgeDriver(edgeOptions);
+                    driver = getEdgeDriverAndProperties();
             }
         }catch (NullPointerException e){
             logger.error("Please select the browser correctly");
@@ -55,6 +44,35 @@ public class DriverFactory {
         return Browser.valueOf(getProperties().getBrowser());
     }
 
+    private static WebDriver getChromeDriverAndProperties(){
+        logger.info("Successfully chosen chrome browser");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        WebDriverManager.chromedriver().setup();
+        chromeOptions.addArguments("start-maximized");
+        return new ChromeDriver(chromeOptions);
+    }
+
+    private static WebDriver getFirefoxDriverAndProperties(){
+        logger.info("Successfully chosen firefox browser");
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        WebDriverManager.firefoxdriver().setup();
+        firefoxOptions.addArguments("start-maximized");
+        return new FirefoxDriver(firefoxOptions);
+    }
+
+    private static WebDriver getIEPDriverAndProperties(){
+        logger.info("Successfully chosen internet explorer browser");
+        InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions();
+        WebDriverManager.iedriver().setup();
+        return new InternetExplorerDriver(internetExplorerOptions);
+    }
+
+    private static WebDriver getEdgeDriverAndProperties(){
+        logger.info("Successfully chosen edge browser");
+        EdgeOptions edgeOptions = new EdgeOptions();
+        WebDriverManager.edgedriver().setup();
+        return new EdgeDriver(edgeOptions);
+    }
 
 
 

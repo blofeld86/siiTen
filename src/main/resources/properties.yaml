@@ -1,6 +1,7 @@
 browser: CHROME
 #browser: FIREFOX
 #browser: IE
+#browser: EDGE
 
 environments:
   env_int:
