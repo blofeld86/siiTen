@@ -5,7 +5,7 @@
         <withJansi>true</withJansi>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
-                %d{yyyy-MM-dd HH:mm:ss} %boldBlue(%-5level) - %boldRed(%msg%n)
+                %d{yyyy-MM-dd HH:mm:ss} %boldBlue(%-5level) - %boldGreen(%msg%n)
             </pattern>
         </layout>
     </appender>

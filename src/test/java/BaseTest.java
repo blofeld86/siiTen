@@ -1,3 +1,4 @@
+import configuration.DriverFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,9 @@ import static configuration.DriverFactory.*;
 public class BaseTest {
 
     private static Logger logger = LoggerFactory.getLogger("BaseTest.class");
+    protected DriverFactory driverFactory = new DriverFactory();
     protected WebDriver driver;
+
 
     @BeforeAll
     static void beforeAll() {
@@ -20,7 +23,7 @@ public class BaseTest {
 
     @BeforeEach
     void setUp() {
-        driver = getDriver(getBrowserFromYaml());
+        driver = driverFactory.getDriver(driverFactory.getBrowserFromYaml());
         driver.get(System.getProperty("appUrl"));
         logger.info("Driver initiated properly");
     }

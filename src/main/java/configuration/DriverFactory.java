@@ -18,21 +18,14 @@ public class DriverFactory {
 
     private static Logger logger = LoggerFactory.getLogger("DriverFactory.class");
 
-    public static WebDriver getDriver(Browser browser){
+    public WebDriver getDriver(Browser browser){
         WebDriver driver = null;
         try{
             switch (browser){
-                case CHROME:
-                    driver = getChromeDriverAndProperties();
-                    break;
-                case FIREFOX:
-                    driver = getFirefoxDriverAndProperties();
-                    break;
-                case IE:
-                    driver = getIEPDriverAndProperties();
-                    break;
-                default:
-                    driver = getEdgeDriverAndProperties();
+                case CHROME:  driver = getChromeDriverAndProperties();  break;
+                case FIREFOX: driver = getFirefoxDriverAndProperties(); break;
+                case IE:      driver = getIEPDriverAndProperties();     break;
+                default:      driver = getEdgeDriverAndProperties();
             }
         }catch (NullPointerException e){
             logger.error("Please select the browser correctly");
@@ -40,11 +33,11 @@ public class DriverFactory {
         return driver;
     }
 
-    public static Browser getBrowserFromYaml(){
+    public Browser getBrowserFromYaml(){
         return Browser.valueOf(getProperties().getBrowser());
     }
 
-    private static WebDriver getChromeDriverAndProperties(){
+    private WebDriver getChromeDriverAndProperties(){
         logger.info("Successfully chosen chrome browser");
         ChromeOptions chromeOptions = new ChromeOptions();
         WebDriverManager.chromedriver().setup();
@@ -52,7 +45,7 @@ public class DriverFactory {
         return new ChromeDriver(chromeOptions);
     }
 
-    private static WebDriver getFirefoxDriverAndProperties(){
+    private WebDriver getFirefoxDriverAndProperties(){
         logger.info("Successfully chosen firefox browser");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         WebDriverManager.firefoxdriver().setup();
@@ -60,14 +53,14 @@ public class DriverFactory {
         return new FirefoxDriver(firefoxOptions);
     }
 
-    private static WebDriver getIEPDriverAndProperties(){
+    private WebDriver getIEPDriverAndProperties(){
         logger.info("Successfully chosen internet explorer browser");
         InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions();
         WebDriverManager.iedriver().setup();
         return new InternetExplorerDriver(internetExplorerOptions);
     }
 
-    private static WebDriver getEdgeDriverAndProperties(){
+    private WebDriver getEdgeDriverAndProperties(){
         logger.info("Successfully chosen edge browser");
         EdgeOptions edgeOptions = new EdgeOptions();
         WebDriverManager.edgedriver().setup();
