@@ -1,14 +1,20 @@
 browser: CHROME
-#browser: firefox
-#browser: ie
+#browser: FIREFOX
+#browser: IE
 
 environments:
   env_int:
     active: true
     appUrl: http://146.59.32.4/index.php
+    filterTestOneLowerPrice: 9
+    filterTestOneHigherPrice: 10
+    filterTestThreeHigherPrice: 28
 
   env_test:
     active: false
     appUrl: http://146.59.32.4/index.php
+    filterTestOneLowerPrice: 9
+    filterTestOneHigherPrice: 10
+    filterTestThreeHigherPrice: 28
 
 

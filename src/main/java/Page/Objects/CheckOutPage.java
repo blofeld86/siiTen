@@ -50,23 +50,30 @@ public class CheckOutPage extends BasePage{
         return this;
     }
 
-    public CheckOutPage shouldProvideFirstAndLastName(){
-        shouldFillInput(userFactory.getRandomUser().getFirstName(),firstName,driver);
-        shouldFillInput(userFactory.getRandomUser().getLastName(),lastName,driver);
+    public CheckOutPage shouldProvideRandomFirstAndLastName(){
+        shouldFillInput(userFactory.getRandomUser().getFirstName(),firstName);
+        shouldFillInput(userFactory.getRandomUser().getLastName(),lastName);
         logger.info("Successfully provided first and last name");
         return this;
     }
 
-    public CheckOutPage shouldProvideMailAndPassword(){
-        shouldFillInput(userFactory.getRandomUser().getMail(),email,driver);
-        shouldFillInput(userFactory.getRandomUser().getPassword(),password,driver);
+    public CheckOutPage shouldProvideRegisteredFirstAndLastName(){
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getFirstName(),firstName);
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getLastName(),lastName);
+        logger.info("Successfully provided first and last name");
+        return this;
+    }
+
+    public CheckOutPage shouldProvideRandomMailAndPassword(){
+        shouldFillInput(userFactory.getRandomUser().getMail(),email);
+        shouldFillInput(userFactory.getRandomUser().getPassword(),password);
         logger.info("Successfully provided mail and password");
         return this;
     }
 
     public CheckOutPage shouldProvideBirthdate( int month, int day, int year){
         String birthday = Integer.toString(month)+"/"+Integer.toString(day)+"/"+Integer.toString(year);
-        shouldFillInput(birthday,birthdate,driver);
+        shouldFillInput(birthday,birthdate);
         logger.info("Successfully provided birthdate");
         return this;
     }

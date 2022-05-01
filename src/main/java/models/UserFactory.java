@@ -19,10 +19,25 @@ public class UserFactory {
                 .buildStreet(faker.address().streetAddress())
                 .buildCompany(faker.company().name())
                 .buildCity(faker.address().city())
-                .buildZipCode(Integer.toString(99)+"-"+Integer.toString(999))
+                .buildZipCode(Integer.toString(random.nextInt(99))+"-"+Integer.toString(random.nextInt(999)))
                 .buildPhone(faker.phoneNumber().subscriberNumber(9))
                 .build();
 
+    }
+
+    public User getAlreadyRegisteredUser(){
+        return new User.UserBuilder()
+                .buildFirstName("Willie")
+                .buildLastName("The Coyote")
+                .buildPassword("RoadRunner")
+                .buildMail("wb@wb.wb")
+                .buildAlias("Genius")
+                .buildStreet("Nevada Fields")
+                .buildCompany("Lonney Toons")
+                .buildCity("Las Vegas")
+                .buildZipCode("00-007")
+                .buildPhone("876543219")
+                .build();
     }
 
 }

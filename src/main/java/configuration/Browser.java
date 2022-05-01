@@ -4,9 +4,7 @@ public enum Browser {
 
     CHROME("chrome"),
     FIREFOX("firefox"),
-    IE("ie"),
-    EDGE("edge");
-
+    IE("ie");
     private String browser;
 
     Browser(String browser) {

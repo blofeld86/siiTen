@@ -1,5 +1,4 @@
 import Page.Objects.*;
-import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import test.helpers.WebElementHandler;
@@ -10,8 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CheckOutTest extends BaseTest{
 
+    // Tutaj ustawiłem, żeby zmieniać shouldProvideRandomFirstAndLastName() na shouldProvideRegisteredFirstAndLastName
+    // Oraz żeby zamieniać shouldFillFormByRandomUser() na  shouldFillFormByRegisteredUser()
+    // Nie zrobiłem podstawiania zarejestrowanego maila - bo wtedy wyrzuca że adres już istnieje i test wyrzuca błąd
+
+
     @Test
-    void checkOutOne() throws InterruptedException {
+    void checkOutOne(){
         LandingPage landingPage = new LandingPage(driver);
         ProceedOrderPage proceedOrderPage = new ProceedOrderPage(driver);
         SummaryPage summaryPage = new SummaryPage(driver);
@@ -20,14 +24,16 @@ public class CheckOutTest extends BaseTest{
         landingPage
                     .signOpenRegisterForm()
                     .shouldChooseMale()
-                    .shouldProvideFirstAndLastName()
-                    .shouldProvideMailAndPassword()
+                    .shouldProvideRandomFirstAndLastName()
+//                    .shouldProvideRegisteredFirstAndLastName()
+                    .shouldProvideRandomMailAndPassword()
                     .shouldProvideBirthdate(9,11,86)
                     .shouldMarkCheckBoxes()
                     .shouldRegister()
                     .shouldAddRandomProducts(5,3,true)
                     .shouldProceedToCheckOut()
-                    .shouldFillForm()
+                    .shouldFillFormByRandomUser()
+//                    .shouldFillFormByRegisteredUser()
                     .shouldChooseDelivery()
                     .shouldChoosePaymentOption()
                     .shouldHandleTermsPopup()
@@ -40,7 +46,7 @@ public class CheckOutTest extends BaseTest{
                     .shouldFillListByValues()
                     .shouldGetTheCustomerData();
 
-        assertEquals(orderHistoryPage.getDate().getText(), WebElementHandler.getTodayDate());
+        assertEquals(orderHistoryPage.getDate().getText(), WebElementHandler.getTodaysDate());
         assertEquals(basketPage.getDisplayedTotalPrice(),orderHistoryPage.getTotalPriceValue());
         assertEquals(proceedOrderPage.getAddressValue(),orderHistoryPage.getDelivAddress());
         assertEquals(proceedOrderPage.getAddressValue(),orderHistoryPage.getInvAddress());

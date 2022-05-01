@@ -8,7 +8,7 @@ public class CategoriesTest extends BaseTest{
 
 
     @Test
-    void name() throws InterruptedException {
+    void name() {
         LandingPage landingPage = new LandingPage(driver);
         landingPage
                    .iterateThroughCategories()

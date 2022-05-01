@@ -90,9 +90,9 @@ public class BasketPage extends BasePage {
     public BasketPage shouldAddRandomProducts( int nrOfProd,int qntOfProd,boolean proceed) {
         for (int i = 0; i < nrOfProd; i++) {
             (categories.get(getRandom().nextInt(categories.size()))).click();
-            shouldDoubleClick(products.get(getRandom().nextInt(products.size())));
+            actionsDoubleClick(products.get(getRandom().nextInt(products.size())));
             int quant = (getRandom().nextInt(qntOfProd-1)) + 1;
-            shouldFillInput(Integer.toString(quant), input, driver);
+            shouldFillInput(Integer.toString(quant), input);
             addToCartConsistenceList(productName.getText(),
                     getFullPriceFromString(price.getText()), quant);
             addToCartButton.click();

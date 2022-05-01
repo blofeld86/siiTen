@@ -91,23 +91,39 @@ public class ProceedOrderPage extends BasePage {
         super(driver);
     }
 
-    public ProceedOrderPage shouldFillForm() {
-        addressValue = userFactory.getRandomUser().getStreet();
-        shouldFillInput(userFactory.getRandomUser().getFirstName(), alias, driver);
-        shouldFillInput(userFactory.getRandomUser().getCompany(), company, driver);
-        shouldFillInput(addressValue, address, driver);
-        shouldFillInput(userFactory.getRandomUser().getCity(), city, driver);
-        Select select = new Select(selectState);
-        jse.executeScript("arguments[0].scrollIntoView(true);", select);
-        select.selectByIndex(getRandom().nextInt(59));
-        shouldFillInput(userFactory.getRandomUser().getZipCode(), zipCode, driver);
+    public ProceedOrderPage shouldFillFormByRandomUser() {
+        shouldFillInput(userFactory.getRandomUser().getFirstName(), alias);
+        shouldFillInput(userFactory.getRandomUser().getCompany(), company);
+        shouldFillInput(userFactory.getRandomUser().getStreet(), address);
+        shouldFillInput(userFactory.getRandomUser().getCity(), city);
+        jse.executeScript("arguments[0].scrollIntoView(true);", city);
+        shouldHandleSelectByIndex(getRandom().nextInt(59),selectState);
+        shouldFillInput(userFactory.getRandomUser().getZipCode(), zipCode);
         Select select1 = new Select(selectCountry);
         select1.selectByValue("14");
-        shouldFillInput(userFactory.getRandomUser().getPhone(), phone, driver);
+        shouldFillInput(userFactory.getRandomUser().getPhone(), phone);
         continueButton.click();
         logger.info("Successfully filled the form");
         return this;
     }
+
+    public ProceedOrderPage shouldFillFormByRegisteredUser() {
+        addressValue = userFactory.getAlreadyRegisteredUser().getFirstName();
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getFirstName(), alias);
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getLastName(), company);
+        shouldFillInput(addressValue, address);
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getCity(), city);
+        jse.executeScript("arguments[0].scrollIntoView(true);", city);
+        shouldHandleSelectByIndex(getRandom().nextInt(59),selectState);
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getZipCode(), zipCode);
+        Select select1 = new Select(selectCountry);
+        select1.selectByValue("14");
+        shouldFillInput(userFactory.getAlreadyRegisteredUser().getPhone(), phone);
+        continueButton.click();
+        logger.info("Successfully filled the form");
+        return this;
+    }
+
 
     public ProceedOrderPage shouldChooseDelivery() {
         deliveryMan.click();

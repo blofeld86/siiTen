@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SearchTest extends BaseTest{
 
     @Test
-    void searchTest() throws InterruptedException {
+    void searchTest(){
         LandingPage landingPage = new LandingPage(driver);
         ProductDetails productDetails = landingPage
                    .enterRandomProductNameIntoField()

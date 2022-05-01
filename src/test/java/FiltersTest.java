@@ -6,12 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FiltersTest extends BaseTest {
 
+    // W TYM TEŚCIE PARAMETRY WGRAŁEM Z PLIKU YAML - CHOCIAŻ MOŻNA WSTAWIĆ ZWYKŁE INTY
+    // PÓŹNIEJ, CHCIAŁEM POKAZAĆ ŻE DZIAŁA I TAK I TAK
     @Test
     void sliderFirstValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
                 .goToArtCategory()
-                .selectCorrectPrice(9,10)
+                .selectCorrectPrice(Integer.parseInt(System.getProperty("filterTestOneLowerPrice"))
+                        ,Integer.parseInt(System.getProperty("filterTestOneHigherPrice")))
                 .enterValuesForVerifying()
                 .clearFilter();
         for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)
@@ -39,7 +42,7 @@ public class FiltersTest extends BaseTest {
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
                 .goToArtCategory()
-                .selectCorrectPrice(10,28)
+                .selectCorrectPrice(10,Integer.parseInt(System.getProperty("filterTestThreeHigherPrice")))
                 .enterValuesForVerifying()
                 .clearFilter();
         for (int i=0;i<filtersPage.getBooleanList().size()-1;i++)

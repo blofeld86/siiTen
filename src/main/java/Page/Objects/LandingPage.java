@@ -114,26 +114,25 @@ public class LandingPage extends BasePage {
         return new ProductDetails(driver);
     }
 
-    public LandingPage iterateThroughCategories () throws InterruptedException {
+    public LandingPage iterateThroughCategories (){
         for (int i = 0; i < listOfCategories.size() - 1; i++) {
             categoriesListOfNamesOfFirstPage.add(listOfCategories.get(i).getText());
             listOfCategories.get(i).click();
-            categoriesListOfNamesOfSecondPage.add(getTextFromElement(categoryName, driver));
+            categoriesListOfNamesOfSecondPage.add(getTextFromElement(categoryName));
             displayedListOfCategoryItems.add(numberOfItemsInCategory(itemList));
-            summaryListOfCategoryItems.add(getNumberFromText(numberOfProducts.getText(), 2));
+            summaryListOfCategoryItems.add(getNumberFromTextDividedBySpaces(numberOfProducts.getText(), 2));
         }
         logger.info("Successfully iterated through main categories");
         return this;
     }
 
-    public LandingPage iterateThroughSubCategories () throws InterruptedException {
+    public LandingPage iterateThroughSubCategories() {
         for (int i = 0; i < listOfSubCategories.size() - 1; i++) {
             subCategoriesListOfNamesOfFirstPage.add(listOfCategories.get(i).getText());
             listOfCategories.get(i).click();
-            subCategoriesListOfNamesOfSecondPage.add(getTextFromElement(categoryName, driver));
-            verifyIsElementDisplayed(filters, driver);
+            subCategoriesListOfNamesOfSecondPage.add(getTextFromElement(categoryName));
             displayedListOfSubCategoryItems.add(numberOfItemsInCategory(itemList));
-            summaryListOfSubCategoryItems.add(getNumberFromText(numberOfProducts.getText(), 2));
+            summaryListOfSubCategoryItems.add(getNumberFromTextDividedBySpaces(numberOfProducts.getText(), 2));
         }
         logger.info("Successfully iterated through subcategories");
         return this;

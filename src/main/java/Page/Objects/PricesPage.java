@@ -51,18 +51,18 @@ public class PricesPage extends BasePage{
 
     public PricesPage fillDisplayedObjectList(){
         getWait().until(ExpectedConditions.visibilityOfAllElements(onSaleProducts));
-        for (WebElement element : onSaleProducts) { areProductsDisplayedList.add(verifyIsDisplayed(element));}
+        for (WebElement element : onSaleProducts) { areProductsDisplayedList.add(element.isDisplayed());}
         return this;
     }
 
     public PricesPage fillPresenceOfDiscountList(){
-        for (WebElement element : discount) { discountProductsList.add(verifyIsDisplayed(element));}
+        for (WebElement element : discount) { discountProductsList.add(element.isDisplayed());}
         return this;
     }
 
     public PricesPage fillBothPricesList(){
-        for (WebElement element : originalPrice) { regularPriceList.add(verifyIsDisplayed(element));}
-        for (WebElement element : actualPrice) { discountedPriceList.add(verifyIsDisplayed(element));}
+        for (WebElement element : originalPrice) { regularPriceList.add(element.isDisplayed());}
+        for (WebElement element : actualPrice) { discountedPriceList.add(element.isDisplayed());}
         return this;
     }
 

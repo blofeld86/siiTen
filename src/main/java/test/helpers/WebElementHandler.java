@@ -32,53 +32,22 @@ public class WebElementHandler {
     }
 
 
-    public void shouldClickElementByActions(WebElement element){
-        actions.click(element).perform();
-    }
-
     public void provideValue(WebElement element, String string){
         element.clear();
         element.sendKeys(string);
     }
 
-    public void shouldDoubleClick(WebElement element){
-        actions.doubleClick(element).perform();
-    }
-
-    public void moveToElementAndClick(WebElement element){
-        actions.moveToElement(element).click(element).perform();
-    }
-
-    public void shouldFillInput(String text,WebElement element,WebDriver driver){
+    public void shouldFillInput(String text,WebElement element){
         element.clear();
         element.sendKeys(text);
-        logger.info("Successfully filled the input by the value {}",text);
+        logger.info("Successfully filled the input by value {}",text);
     }
 
-    public void shouldHandleSelectByIndex(int i,WebElement element, WebDriver driver){
-        Select select = new Select(element);
-        select.selectByIndex(i);
-        logger.info("Successfully selected the element with index number: "+i);
-    }
 
-    public void shouldHandleSelectByValue(String value, WebElement element, WebDriver driver){
+    public void shouldHandleSelectByValue(String value, WebElement element){
         Select select = new Select(element);
         select.selectByValue(value);
         logger.info("Successfully selected the element with the visible text: "+ value);
-    }
-
-    public void shouldHandleMultipleSelect(int i, WebElement element, WebDriver driver){
-        Random random = new Random();
-        Select select = new Select(element);
-        for (int x =0;x<i; i++){
-            select.selectByIndex(i);
-        }
-        logger.info("Successfully selected the random elements");
-    }
-
-    public void shouldUploadFile(String path, WebElement element){
-        element.sendKeys(path);
-        logger.info("Successfully uploaded file from path "+ path);
     }
 
     public WebElement getRandomWebElementFromList(List<WebElement> list){
@@ -86,22 +55,13 @@ public class WebElementHandler {
         return list.get(random.nextInt(list.size()));
     }
 
-    public String getTextFromListElement(WebElement element,String selector){
-        return element.findElement(By.cssSelector(selector)).getText();
-    }
-
-    public String getTextFromElement(WebElement element, WebDriver driver){
+    public String getTextFromElement(WebElement element){
         return element.getText();
-    }
-
-    public void verifyIsElementDisplayed(WebElement element, WebDriver driver){
-        element.isDisplayed();
-        logger.info("The element is displayed");
     }
 
     public int numberOfItemsInCategory(List<WebElement> list){ return list.size();}
 
-    public int getNumberFromText(String text,int word){
+    public int getNumberFromTextDividedBySpaces(String text, int word){
         String[] array= text.split(" ");
         int result = Integer.parseInt(array[word]);
         return result;
@@ -121,41 +81,13 @@ public class WebElementHandler {
         return list.get(positionOfNumber);
     }
 
-    public void moveSlider(WebElement element, int expectedValue, int actualValue) {
-        if(expectedValue < actualValue){
-             int result = actualValue - expectedValue;
-             actions.clickAndHold(element).perform();
-             for (int i =0; i<result;i++){
-                actions.moveByOffset(-10,0).perform();
-             }
-             actions.release().perform();
-        } else if (expectedValue > actualValue){
-             int result = expectedValue - actualValue;
-             actions.clickAndHold(element).perform();
-             for (int i =0; i<result;i++){
-                 actions.moveByOffset(10,0).perform();
-             }
-             actions.release().perform();
-        }
-    }
-
     public boolean verifyPrice(int price, int lowerLimit, int higherLimit) {
-        if (price >= lowerLimit && price <= higherLimit) {
-            return true;
-        }
+        if (price >= lowerLimit && price <= higherLimit) { return true;}
         return false;
     }
 
     public boolean verifyDiscount(double orgPrice, double actPrice, double discount){
-        if (actPrice == orgPrice * (1-discount)){ return true;}
-        return false;
-    }
-
-    public boolean verifyIsDisplayed(WebElement element){
-        if (element.isDisplayed()){
-            return true;
-        }
-        return false;
+        return actPrice == orgPrice * (1-discount);
     }
 
     public double getFullPriceFromString(String value){
@@ -196,7 +128,7 @@ public class WebElementHandler {
         logger.info("Successfully switched and closed the previous window");
     }
 
-    public static String getTodayDate(){
+    public static String getTodaysDate(){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate localDate = LocalDate.now();
         return dateTimeFormatter.format(localDate);
