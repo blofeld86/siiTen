@@ -1,4 +1,5 @@
 import Page.Objects.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 import test.helpers.WebElementHandler;
@@ -15,6 +16,7 @@ public class CheckOutTest extends BaseTest{
 
 
     @Test
+    @DisplayName("Validation of the all order making process")
     void checkOutOne(){
         LandingPage landingPage = new LandingPage(driver);
         ProceedOrderPage proceedOrderPage = new ProceedOrderPage(driver);

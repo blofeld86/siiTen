@@ -1,4 +1,5 @@
 import Page.Objects.BasketPage;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
@@ -8,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BasketTest extends BaseTest{
 
     @Test
+    @DisplayName("Validation of the prices during the composing the order")
     void basketTestOne() throws InterruptedException {
         BasketPage basketPage = new BasketPage(driver);
         basketPage

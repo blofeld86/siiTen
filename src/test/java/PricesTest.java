@@ -1,6 +1,7 @@
 import Page.Objects.PricesPage;
 import Page.Objects.ProductPage;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PricesTest extends BaseTest{
 
     @Test
+    @DisplayName("Validation of the correctness of the discounts")
     void pricesTesOne(){
         PricesPage pricesPage = new PricesPage(driver);
         ProductPage productPage = new ProductPage(driver);

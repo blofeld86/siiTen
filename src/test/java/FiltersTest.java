@@ -1,5 +1,6 @@
 import Page.Objects.FiltersPage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,6 +10,7 @@ public class FiltersTest extends BaseTest {
     // W TYM TEŚCIE PARAMETRY WGRAŁEM Z PLIKU YAML - CHOCIAŻ MOŻNA WSTAWIĆ ZWYKŁE INTY
     // PÓŹNIEJ, CHCIAŁEM POKAZAĆ ŻE DZIAŁA I TAK I TAK
     @Test
+    @DisplayName("Validation of the correctness of slider working - Part One.")
     void sliderFirstValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
@@ -24,6 +26,7 @@ public class FiltersTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Validation of the correctness of slider working - Part Two")
     void sliderSecondValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
@@ -38,6 +41,7 @@ public class FiltersTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Validation of the correctness of slider working - Part Three")
     void sliderThirdValue(){
         FiltersPage filtersPage = new FiltersPage(driver);
         filtersPage
